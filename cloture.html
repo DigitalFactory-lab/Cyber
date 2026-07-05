@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clôture · Faire le point — Cyber-réflexes</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.acquis{background:var(--card); border:1px solid var(--border); border-radius:14px;
+  box-shadow:var(--shadow); padding:16px 18px; margin-bottom:14px}
+.acquis .lib{font-weight:700; margin-bottom:12px}
+.niveaux{display:flex; gap:8px; flex-wrap:wrap}
+.nbtn{flex:1; min-width:118px; min-height:48px; border-radius:999px; border:2px solid var(--border);
+  background:var(--card); font-weight:700; font-size:14px; cursor:pointer; color:var(--muted)}
+.nbtn:hover{border-color:var(--mauve)}
+.nbtn.on{border-color:var(--mauve); background:var(--mauve-soft); color:var(--mauve-dark)}
+.nbtn.on.n4{border-color:var(--blue); background:var(--blue-soft); color:var(--blue-dark)}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="logo">🛡</span>Cyber-réflexes</a>
+  <span class="etape-tag">Clôture · 15:50–16:20</span>
+</header>
+
+<main>
+  <div class="hero-etape">
+    <div class="surtitre">Clôture · DigComp 4.3</div>
+    <h1>Faire le point</h1>
+    <p class="sous">Ancrer les acquis, mesurer le chemin parcouru, clôturer sur la confiance.</p>
+    <div class="meta-grid">
+      <div class="meta"><b>Objectif</b>Repartir avec SON réflexe prioritaire</div>
+      <div class="meta"><b>Livrable</b>Carnet de bord · radar du groupe · baromètre de sortie</div>
+      <div class="meta"><b>Format</b>Individuel + collectif</div>
+    </div>
+  </div>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">📖</span><b>Carnet de bord — où j'en suis</b></div>
+    <div class="exo-corps">
+      <p>Pour chacun des 6 acquis de la journée, positionnez-vous honnêtement.
+      L'échelle est valorisante : <b>tout le monde progresse, personne n'échoue.</b></p>
+      <div id="carnet"></div>
+
+      <label for="reflexe">Mon réflexe prioritaire — celui que j'applique dès ce soir</label>
+      <textarea id="reflexe" placeholder="Ex. : je mets un code à 6 chiffres sur mon téléphone et je change le mot de passe de ma boîte mail."></textarea>
+      <div class="actions">
+        <button class="btn" id="finEtape">✓ Mon carnet de bord est complet</button>
+      </div>
+      <div id="finMsg"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Le radar du groupe &amp; le baromètre</h2>
+    <div class="grid2">
+      <div class="mini-carte"><b>📊 Radar mural :</b> une gommette par axe (6 axes = 6 acquis).
+        On visualise la force du groupe — jamais les individus.</div>
+      <div class="mini-carte"><b>🌡️ Baromètre retour :</b> reposez une gommette (autre couleur) sur l'affiche du matin :
+        « Face aux arnaques, maintenant je me sens… ». Le chemin entre les deux nuages, c'est votre journée.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Mes contacts sûrs — à garder sur soi</h2>
+    <div class="grid2">
+      <div class="mini-carte"><b>💳 Card Stop</b><br><span class="mono" style="font-size:19px">078 170 170</span><br><small>24 h/24</small></div>
+      <div class="mini-carte"><b>📧 Message suspect</b><br><span class="mono">suspect@safeonweb.be</span></div>
+      <div class="mini-carte"><b>🌐 Le point de repère</b><br><span class="mono">safeonweb.be</span></div>
+      <div class="mini-carte"><b>🏛️ En cas de perte</b><br>Ma banque · police locale</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Le mot de la fin</h2>
+    <div class="quote">« La journée est bouclée. Une dernière chose : les bons réflexes se partagent.
+    Ce que vous avez appris aujourd'hui, essayez de le transmettre à un proche cette semaine —
+    un téléphone protégé en plus autour de vous, c'est autant de moins pour les fraudeurs. »</div>
+    <div class="card" style="text-align:center">
+      <p style="font-size:18px; margin:6px 0"><b>Tour de clôture :</b> une phrase par personne —</p>
+      <p style="font-size:22px; font-weight:800; color:var(--mauve-dark); margin:6px 0">« Le réflexe que je garde. »</p>
+    </div>
+  </section>
+</main>
+
+<nav class="pager">
+  <a href="nadia.html"><span class="dir">← Étape précédente</span><span class="titre" style="display:block">Cas pratique — le journal de Nadia</span></a>
+  <a class="suivant" href="index.html"><span class="dir">Retour →</span><span class="titre" style="display:block">Accueil — programme de la journée</span></a>
+</nav>
+<footer class="colophon">Atelier Cyber-réflexes · Le Forem — Digital Factory · Merci pour cette journée d'entraînement.</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+var ACQUIS=[
+ 'Je protège mon appareil avec des gestes simples (code, verrouillage, mises à jour).',
+ 'Je choisis mieux mes accès (un compte critique = un mot de passe).',
+ 'Je sais fabriquer et utiliser une phrase de passe.',
+ 'Je repère mieux les messages suspects (4 questions avant de cliquer).',
+ 'Je réfléchis avant de partager une donnée (vert / orange / rouge).',
+ 'En cas de doute ou d\'incident : je m\'arrête, je vérifie, je demande — et je sais qui contacter.'
+];
+var NIVEAUX=['Débutant','En apprentissage','À l\'aise','Solide'];
+var carnet=document.getElementById('carnet');
+
+ACQUIS.forEach(function(a,i){
+  var d=document.createElement('div'); d.className='acquis';
+  var h='<div class="lib">'+(i+1)+'. '+a+'</div><div class="niveaux" data-i="'+i+'">';
+  NIVEAUX.forEach(function(n,j){
+    h+='<button class="nbtn'+(j===3?' n4':'')+'" data-j="'+j+'">'+n+'</button>';
+  });
+  h+='</div>';
+  d.innerHTML=h;
+  carnet.appendChild(d);
+});
+
+carnet.addEventListener('click',function(e){
+  var b=e.target.closest('.nbtn'); if(!b) return;
+  b.parentElement.querySelectorAll('.nbtn').forEach(function(x){x.classList.remove('on');});
+  b.classList.add('on');
+});
+
+document.getElementById('finEtape').addEventListener('click',function(){
+  var choisis=carnet.querySelectorAll('.nbtn.on').length;
+  if(choisis<ACQUIS.length){
+    document.getElementById('finMsg').innerHTML=
+      '<div class="resultat verif"><span class="tag verif">Presque</span>'+
+      '<p style="margin-bottom:0">Positionnez-vous sur les '+ACQUIS.length+' acquis ('+choisis+' faits) — il n\'y a pas de mauvaise case.</p></div>';
+    return;
+  }
+  CR.marquer('cloture');
+  document.getElementById('finMsg').innerHTML=
+    '<div class="resultat ok"><span class="tag ok">Journée bouclée 🎉</span>'+
+    '<p style="margin-bottom:0">Reportez vos niveaux dans le carnet papier et votre gommette sur le radar mural. '+
+    'Et n\'oubliez pas : votre réflexe prioritaire commence ce soir.</p></div>';
+});
+})();
+</script>
+</body>
+</html>

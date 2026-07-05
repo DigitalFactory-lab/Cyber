@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier Cyber-réflexes — Support de cours</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="logo">🛡</span>Cyber-réflexes</a>
+  <span class="etape-tag">Journée d'entraînement</span>
+  <span class="spacer"></span>
+  <span class="progres" id="progresGlobal"></span>
+</header>
+
+<main>
+  <div class="hero-accueil">
+    <h1>Atelier Cyber-réflexes</h1>
+    <p>Bienvenue en journée d'entraînement. À la fin de la journée, vous repartez avec
+    des réflexes qui protègent votre téléphone, vos comptes, votre argent et vos démarches en ligne.</p>
+    <p><b>Règle n°1 : ici, on apprend en essayant.</b> Se tromper fait partie de l'entraînement — c'est même fait pour.</p>
+    <div class="pastilles">
+      <span>🕘 1 journée · 09:00 – 16:20</span>
+      <span>👥 Équipes de 2-3</span>
+      <span>📱 Tablette = console d'entraînement</span>
+      <span>🎯 DigComp — Domaine 4 · Sécurité</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>Les règles du jour</h2>
+    <div class="grid2">
+      <div class="mini-carte"><b>🔒 Votre téléphone vous appartient.</b><br>
+        Personne n'est obligé de montrer son écran. Les vérifications sur vos propres appareils se font en privé.</div>
+      <div class="mini-carte"><b>🤝 On coopère.</b><br>
+        Pas de bonnes ou de mauvaises équipes. Une erreur d'équipe n'est jamais attribuée à une personne.</div>
+      <div class="mini-carte"><b>🥤 Le gobelet retourné.</b><br>
+        Retournez le gobelet de votre table pour dire « on a besoin de toi » — visible de loin, sans lever la main.</div>
+      <div class="mini-carte"><b>🧪 La tablette est un outil.</b><br>
+        Tout ce qu'on y fait vaut pour <b>vos</b> appareils : votre téléphone, votre ordinateur, votre boîte mail.
+        À chaque étape, on fait le lien avec ce que vous avez en poche.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Programme de la journée</h2>
+    <div class="programme" id="programme">
+      <div class="prog-item pause">
+        <span class="heure">09:00–09:30</span><span class="num">0</span>
+        <span class="lib"><b>Prendre ses marques</b><small>Accueil · badges · équipes · baromètre de confiance · prise en main de la console</small></span>
+      </div>
+      <a class="prog-item" href="etape1.html" data-cle="etape1">
+        <span class="heure">09:30–10:20</span><span class="num">1</span>
+        <span class="lib"><b>Verrouiller son appareil</b><small>Code, biométrie, mises à jour · simulateur de verrouillage</small></span>
+        <span class="etat"></span>
+      </a>
+      <a class="prog-item" href="bestiaire.html" data-cle="bestiaire">
+        <span class="heure">10:20–10:40</span><span class="num">1b</span>
+        <span class="lib"><b>Bestiaire des menaces</b><small>Virus, ransomware, phishing… · jeu d'association</small></span>
+        <span class="etat"></span>
+      </a>
+      <a class="prog-item" href="etape2.html" data-cle="etape2">
+        <span class="heure">10:40–11:20</span><span class="num">2</span>
+        <span class="lib"><b>Protéger ses accès</b><small>Phrases de passe, double authentification · testeur de robustesse</small></span>
+        <span class="etat"></span>
+      </a>
+      <div class="prog-item pause">
+        <span class="heure">11:20–11:35</span><span class="num">☕</span>
+        <span class="lib"><b>Pause</b></span>
+      </div>
+      <a class="prog-item" href="etape3.html" data-cle="etape3">
+        <span class="heure">11:35–12:30</span><span class="num">3</span>
+        <span class="lib"><b>Repérer les messages piégés</b><small>Phishing · boîte de réception piégée : 10 messages à analyser</small></span>
+        <span class="etat"></span>
+      </a>
+      <div class="prog-item pause">
+        <span class="heure">12:30–13:15</span><span class="num">🍽</span>
+        <span class="lib"><b>Pause midi</b></span>
+      </div>
+      <a class="prog-item" href="etape4.html" data-cle="etape4">
+        <span class="heure">13:15–14:00</span><span class="num">4</span>
+        <span class="lib"><b>Maîtriser ses données</b><small>Vert / orange / rouge : quoi partager, vérifier, refuser</small></span>
+        <span class="etat"></span>
+      </a>
+      <a class="prog-item" href="etape5.html" data-cle="etape5">
+        <span class="heure">14:00–14:45</span><span class="num">5</span>
+        <span class="lib"><b>Réagir en cas d'incident</b><small>Les bons réflexes dans le bon ordre · scénarios</small></span>
+        <span class="etat"></span>
+      </a>
+      <div class="prog-item pause">
+        <span class="heure">14:45–15:00</span><span class="num">☕</span>
+        <span class="lib"><b>Pause</b></span>
+      </div>
+      <a class="prog-item" href="nadia.html" data-cle="nadia">
+        <span class="heure">15:00–15:50</span><span class="num">★</span>
+        <span class="lib"><b>Cas pratique — le journal de Nadia</b><small>Tout mobiliser sur une situation complète, en équipe</small></span>
+        <span class="etat"></span>
+      </a>
+      <a class="prog-item" href="cloture.html" data-cle="cloture">
+        <span class="heure">15:50–16:20</span><span class="num">✓</span>
+        <span class="lib"><b>Clôture — faire le point</b><small>Carnet de bord · le réflexe que je garde · contacts utiles</small></span>
+        <span class="etat"></span>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2>En bonus</h2>
+    <a class="prog-item" href="quiz.html" data-cle="quiz">
+      <span class="heure">à tout moment</span><span class="num">?</span>
+      <span class="lib"><b>Quiz éclair</b><small>10 questions pour se chauffer ou réviser — une réponse humoristique par question</small></span>
+      <span class="etat"></span>
+    </a>
+  </section>
+
+  <div class="memo" style="margin-top:38px">
+    <b>Rien n'est enregistré en ligne.</b> Ce site fonctionne sans compte et n'envoie aucune de vos réponses sur internet.
+    La progression affichée reste sur cette tablette uniquement.
+  </div>
+</main>
+
+<footer class="colophon">Atelier Cyber-réflexes · Le Forem — Digital Factory · Sensibilisation cybersécurité</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+  var faits = 0, total = 0;
+  document.querySelectorAll('[data-cle]').forEach(function(a){
+    total++;
+    if (CR.estFait(a.dataset.cle)){
+      faits++;
+      var e = a.querySelector('.etat');
+      if (e) e.textContent = '✅';
+    }
+  });
+  if (faits > 0){
+    document.getElementById('progresGlobal').textContent = faits + ' / ' + total + ' activités terminées';
+  }
+})();
+</script>
+</body>
+</html>

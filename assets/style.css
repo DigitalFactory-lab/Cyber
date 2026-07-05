@@ -1,0 +1,273 @@
+/* ===================================================================
+   Atelier Cyber-réflexes — charte : blanc · gris · mauve · bleu
+   =================================================================== */
+:root{
+  --bg:#F6F6FA;
+  --card:#FFFFFF;
+  --border:#E6E5F0;
+  --text:#28263D;
+  --muted:#6F6C86;
+  --mauve:#7C5CD6;
+  --mauve-dark:#5B41B0;
+  --mauve-soft:#F1ECFB;
+  --blue:#3D6FE0;
+  --blue-dark:#2C53AF;
+  --blue-soft:#E9F0FC;
+  --grey-soft:#F0F0F5;
+  --ok:#238C60;
+  --ok-soft:#E4F4EC;
+  --warn:#C27A0E;
+  --warn-soft:#FBF1DD;
+  --bad:#CC3D55;
+  --bad-soft:#FBE7EB;
+  --radius:16px;
+  --shadow:0 2px 10px rgba(60,50,110,.07);
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+
+/* ---------- Barre supérieure ---------- */
+.topbar{
+  position:sticky; top:0; z-index:20;
+  background:rgba(255,255,255,.92); backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:12px 22px;
+}
+.brand{
+  display:flex; align-items:center; gap:9px;
+  font-weight:800; font-size:17px; color:var(--mauve-dark); text-decoration:none;
+}
+.brand .logo{
+  width:32px; height:32px; border-radius:9px; flex:none;
+  background:linear-gradient(135deg,var(--mauve),var(--blue));
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:17px;
+}
+.topbar .etape-tag{
+  font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--mauve-dark); background:var(--mauve-soft);
+  border-radius:999px; padding:5px 14px;
+}
+.topbar .spacer{flex:1}
+.topbar .progres{font-size:14px; color:var(--muted); font-weight:600}
+
+/* ---------- Structure ---------- */
+main{max-width:880px; margin:0 auto; padding:28px 20px 70px}
+section{margin-top:38px}
+h1{font-size:30px; line-height:1.25; margin:0 0 8px}
+h2{
+  font-size:21px; margin:0 0 14px; color:var(--text);
+  display:flex; align-items:center; gap:10px;
+}
+h2::before{
+  content:""; width:5px; height:22px; border-radius:3px; flex:none;
+  background:linear-gradient(180deg,var(--mauve),var(--blue));
+}
+h3{font-size:17px; margin:20px 0 8px; color:var(--mauve-dark)}
+p{margin:10px 0}
+ul,ol{margin:10px 0; padding-left:24px}
+li{margin-bottom:7px}
+a{color:var(--blue)}
+
+/* ---------- En-tête d'étape ---------- */
+.hero-etape{
+  position:relative; overflow:hidden;
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:30px 28px 26px; margin-top:6px;
+}
+.hero-etape::before{
+  content:""; position:absolute; top:0; left:0; right:0; height:5px;
+  background:linear-gradient(90deg,var(--mauve),var(--blue));
+}
+.hero-etape .surtitre{
+  font-size:13px; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--mauve); margin-bottom:6px;
+}
+.hero-etape .sous{color:var(--muted); margin:6px 0 0}
+.meta-grid{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px; margin-top:18px;
+}
+.meta{
+  background:var(--grey-soft); border-radius:12px; padding:12px 16px; font-size:14.5px;
+}
+.meta b{display:block; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:3px}
+
+/* ---------- Cartes & encadrés ---------- */
+.card{
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:22px 24px;
+}
+.card + .card{margin-top:16px}
+.memo{
+  background:var(--blue-soft); border-left:4px solid var(--blue);
+  border-radius:10px; padding:14px 18px; margin:16px 0;
+}
+.memo b:first-child{color:var(--blue-dark)}
+.cle{
+  background:var(--mauve-soft); border-left:4px solid var(--mauve);
+  border-radius:10px; padding:14px 18px; margin:16px 0;
+}
+.cle b:first-child{color:var(--mauve-dark)}
+.quote{
+  border-left:4px solid var(--mauve); background:var(--card);
+  border-radius:10px; padding:14px 18px; margin:14px 0;
+  font-style:italic; color:#45425e;
+  box-shadow:var(--shadow);
+}
+.avert{
+  background:var(--warn-soft); border-left:4px solid var(--warn);
+  border-radius:10px; padding:14px 18px; margin:16px 0; font-size:15px;
+}
+.avert b:first-child{color:var(--warn)}
+
+/* ---------- Boutons ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  border:none; border-radius:12px; padding:13px 22px; min-height:48px;
+  font-size:16px; font-weight:700; cursor:pointer; text-decoration:none;
+  background:var(--mauve); color:#fff; transition:background .15s;
+}
+.btn:hover{background:var(--mauve-dark)}
+.btn.bleu{background:var(--blue)}
+.btn.bleu:hover{background:var(--blue-dark)}
+.btn.ghost{background:var(--grey-soft); color:var(--text)}
+.btn.ghost:hover{background:#E4E4EC}
+.btn:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
+  outline:3px solid var(--blue); outline-offset:2px;
+}
+.actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:16px}
+
+/* ---------- Formulaires ---------- */
+label{display:block; font-weight:700; color:var(--mauve-dark); margin:14px 0 6px; font-size:15px}
+textarea, input[type=text]{
+  width:100%; font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  border:2px solid var(--border); border-radius:12px; padding:12px 14px;
+  background:#FCFCFE; color:var(--text);
+}
+textarea{min-height:64px; resize:vertical}
+textarea:focus,input[type=text]:focus{border-color:var(--mauve); outline:3px solid var(--mauve-soft)}
+
+/* ---------- Verdicts / états ---------- */
+.tag{
+  display:inline-block; font-weight:800; font-size:13.5px; letter-spacing:.05em;
+  text-transform:uppercase; border-radius:999px; padding:5px 14px;
+}
+.tag.ok{background:var(--ok-soft); color:var(--ok)}
+.tag.verif{background:var(--warn-soft); color:var(--warn)}
+.tag.alerte{background:var(--bad-soft); color:var(--bad)}
+.tag.neutre{background:var(--grey-soft); color:var(--muted)}
+.tag.mauve{background:var(--mauve-soft); color:var(--mauve-dark)}
+.tag.bleu{background:var(--blue-soft); color:var(--blue-dark)}
+
+.resultat{
+  border-radius:12px; padding:16px 18px; margin-top:16px;
+}
+.resultat.ok{background:var(--ok-soft); border-left:4px solid var(--ok)}
+.resultat.verif{background:var(--warn-soft); border-left:4px solid var(--warn)}
+.resultat.alerte{background:var(--bad-soft); border-left:4px solid var(--bad)}
+.resultat ul{margin:8px 0 0}
+
+/* ---------- Bandeau exercice ---------- */
+.exo{
+  border:2px solid var(--mauve); border-radius:var(--radius);
+  background:var(--card); box-shadow:var(--shadow); overflow:hidden;
+}
+.exo-tete{
+  background:linear-gradient(90deg,var(--mauve),var(--blue));
+  color:#fff; padding:14px 22px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+}
+.exo-tete .pic{font-size:22px}
+.exo-tete b{font-size:17px; flex:1}
+.exo-tete .compteur{font-size:14px; font-weight:700; background:rgba(255,255,255,.2); border-radius:999px; padding:4px 12px}
+.exo-corps{padding:22px 24px}
+
+/* ---------- Pied de page / navigation ---------- */
+.pager{
+  max-width:880px; margin:0 auto; padding:0 20px 40px;
+  display:flex; gap:14px; justify-content:space-between; flex-wrap:wrap;
+}
+.pager a{
+  flex:1; min-width:220px; text-decoration:none;
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:14px 18px; color:var(--text);
+}
+.pager a:hover{border-color:var(--mauve)}
+.pager .dir{font-size:12.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--mauve)}
+.pager .titre{font-weight:700; margin-top:2px}
+.pager a.suivant{text-align:right}
+footer.colophon{
+  text-align:center; color:var(--muted); font-size:13.5px; padding:8px 20px 34px;
+}
+
+/* ---------- Accueil ---------- */
+.hero-accueil{
+  background:linear-gradient(130deg,var(--mauve-dark) 0%,var(--mauve) 45%,var(--blue) 100%);
+  border-radius:20px; color:#fff; padding:42px 36px; margin-top:6px;
+  box-shadow:0 8px 30px rgba(92,65,176,.25);
+}
+.hero-accueil h1{font-size:34px; color:#fff}
+.hero-accueil p{color:rgba(255,255,255,.92); max-width:640px; font-size:17px}
+.hero-accueil .pastilles{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px}
+.hero-accueil .pastilles span{
+  background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.35);
+  border-radius:999px; padding:6px 15px; font-size:14px; font-weight:600;
+}
+.programme{display:grid; gap:12px; margin-top:8px}
+.prog-item{
+  display:flex; align-items:center; gap:16px; text-decoration:none; color:var(--text);
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:15px 20px; transition:transform .12s, border-color .12s;
+}
+a.prog-item:hover{transform:translateX(4px); border-color:var(--mauve)}
+.prog-item .heure{
+  font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:13.5px; color:var(--muted);
+  width:96px; flex:none;
+}
+.prog-item .num{
+  width:42px; height:42px; border-radius:12px; flex:none;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:16px; color:#fff;
+  background:linear-gradient(135deg,var(--mauve),var(--blue));
+}
+.prog-item.pause .num{background:var(--grey-soft); color:var(--muted)}
+.prog-item .lib{flex:1}
+.prog-item .lib b{display:block; font-size:16.5px}
+.prog-item .lib small{color:var(--muted)}
+.prog-item .etat{font-size:20px; flex:none}
+.prog-item.pause{background:transparent; box-shadow:none; border-style:dashed}
+
+/* ---------- Grilles utilitaires ---------- */
+.grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px}
+.mini-carte{
+  background:var(--card); border:1px solid var(--border); border-radius:14px;
+  padding:16px 18px; box-shadow:var(--shadow);
+}
+.mini-carte b{color:var(--mauve-dark)}
+
+/* ---------- Chips ---------- */
+.chips{display:flex; flex-wrap:wrap; gap:10px}
+.chip{
+  border:2px solid var(--border); background:var(--card); border-radius:999px;
+  padding:9px 16px; font-size:15px; cursor:pointer; min-height:44px;
+  font-family:ui-monospace,"SF Mono",Menlo,monospace;
+}
+.chip:hover{border-color:var(--mauve)}
+.chip.on{border-color:var(--mauve); background:var(--mauve-soft); color:var(--mauve-dark); font-weight:700}
+
+@media (max-width:560px){
+  .hero-accueil{padding:30px 22px}
+  .hero-accueil h1{font-size:27px}
+  .prog-item .heure{width:auto; font-size:12px}
+  main{padding:20px 14px 60px}
+  .card,.exo-corps{padding:18px 16px}
+}
+@media print{
+  .topbar,.pager,.exo,.actions{display:none}
+}

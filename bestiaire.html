@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Étape 1 bis · Bestiaire des menaces — Cyber-réflexes</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.situation{background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:18px 20px; margin-bottom:16px}
+.situation .temoin{font-style:italic; background:var(--grey-soft); border-radius:10px; padding:12px 16px; margin-bottom:14px}
+.noms{display:flex; flex-wrap:wrap; gap:10px}
+.nom-btn{border:2px solid var(--border); background:var(--card); border-radius:999px;
+  padding:9px 16px; font-size:15px; font-weight:600; cursor:pointer; min-height:44px}
+.nom-btn:hover{border-color:var(--mauve)}
+.nom-btn.choisi{border-color:var(--mauve); background:var(--mauve-soft); color:var(--mauve-dark)}
+.nom-btn.bon{border-color:var(--ok); background:var(--ok-soft); color:var(--ok); font-weight:800}
+.nom-btn:disabled{opacity:.5; cursor:default}
+.nom-btn.bon:disabled,.nom-btn.choisi:disabled{opacity:1}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="logo">🛡</span>Cyber-réflexes</a>
+  <span class="etape-tag">Étape 1 bis · 10:20–10:40</span>
+  <span class="spacer"></span>
+  <span class="progres mono" id="progres">0 / 6 reconnus</span>
+</header>
+
+<main>
+  <div class="hero-etape">
+    <div class="surtitre">Étape 1 bis · DigComp 4.1</div>
+    <h1>Bestiaire des menaces</h1>
+    <p class="sous">Reconnaître les grandes familles de logiciels malveillants à travers des situations du quotidien.</p>
+    <div class="meta-grid">
+      <div class="meta"><b>Objectif</b>Mettre un nom sur chaque « bête »</div>
+      <div class="meta"><b>Livrable</b>Poster Bestiaire assemblé au mur</div>
+      <div class="meta"><b>Format</b>Équipes</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Le principe</h2>
+    <p>Six « bêtes » rôdent dans le monde numérique. Personne ne vous demande de devenir expert :
+    <b>reconnaître la famille suffit à savoir quoi faire.</b></p>
+    <p>Pour chaque témoignage ci-dessous, retrouvez de quelle menace il s'agit. La définition s'affiche quand vous avez trouvé.</p>
+  </section>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">🐉</span><b>Exercice — qui a fait le coup ?</b></div>
+    <div class="exo-corps">
+      <div id="jeu"></div>
+      <div id="bilan"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Le message clé</h2>
+    <div class="cle"><b>Le point commun de presque toutes ces bêtes :</b> elles entrent parce qu'on leur a
+      <b>ouvert la porte</b> — un clic, une pièce jointe, une installation.
+      Le meilleur antivirus, c'est le réflexe de vérification. C'est exactement l'objet de la suite de la journée.</div>
+  </section>
+</main>
+
+<nav class="pager">
+  <a href="etape1.html"><span class="dir">← Étape précédente</span><span class="titre" style="display:block">Verrouiller son appareil</span></a>
+  <a class="suivant" href="etape2.html"><span class="dir">Étape suivante →</span><span class="titre" style="display:block">Protéger ses accès</span></a>
+</nav>
+<footer class="colophon">Atelier Cyber-réflexes · Aucune donnée n'est enregistrée ni envoyée.</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+var MENACES=[
+ {nom:'Virus', def:'Programme qui s\'installe sans permission et se propage de fichier en fichier pour endommager l\'appareil.',
+  situ:'Depuis que j\'ai ouvert cette pièce jointe, mon PC plante sans arrêt et des fichiers ont disparu.'},
+ {nom:'Cheval de Troie', def:'Programme qui se fait passer pour quelque chose d\'utile (jeu, logiciel gratuit) mais cache un intrus.',
+  situ:'J\'ai téléchargé un logiciel gratuit pour regarder des films… depuis, quelqu\'un contrôle mon ordinateur.'},
+ {nom:'Spyware (espion)', def:'Programme qui observe en silence : ce que vous tapez, vos mots de passe, vos messages.',
+  situ:'Quelqu\'un s\'est connecté à ma banque en ligne alors que je n\'ai jamais donné mon mot de passe à personne.'},
+ {nom:'Ransomware (rançon)', def:'Programme qui bloque vos fichiers ou tout l\'appareil et exige un paiement pour les rendre.',
+  situ:'Tous mes documents et photos sont verrouillés. Un message réclame 500 € en ligne pour les débloquer.'},
+ {nom:'Adware (pub)', def:'Programme qui inonde l\'appareil de publicités et le ralentit, souvent installé avec un logiciel gratuit.',
+  situ:'Mon téléphone est devenu très lent et des pubs s\'ouvrent toutes seules, même hors du navigateur.'},
+ {nom:'Hameçonnage (phishing)', def:'Pas un programme : une tromperie. Un faux message qui imite un organisme connu pour vous faire cliquer ou donner vos données.',
+  situ:'J\'ai reçu un SMS de « ma banque » avec un lien… c\'était un faux site, ils ont vidé mon compte.'}
+];
+
+// Ordre des situations mélangé, ordre des noms stable (alphabétique)
+var ordre=MENACES.map(function(_,i){return i;});
+for(var k=ordre.length-1;k>0;k--){var r=Math.floor(Math.random()*(k+1)); var t=ordre[k]; ordre[k]=ordre[r]; ordre[r]=t;}
+var noms=MENACES.map(function(m){return m.nom;}).sort();
+
+var trouves=0;
+var jeu=document.getElementById('jeu');
+
+ordre.forEach(function(idx,pos){
+  var m=MENACES[idx];
+  var bloc=document.createElement('div');
+  bloc.className='situation';
+  var h='<div><span class="tag mauve">Témoignage '+(pos+1)+'</span></div>'+
+    '<div class="temoin" style="margin-top:10px">« '+m.situ+' »</div>'+
+    '<div class="noms" data-idx="'+idx+'">';
+  noms.forEach(function(n){
+    h+='<button class="nom-btn" data-nom="'+n+'">'+n+'</button>';
+  });
+  h+='</div><div class="rep"></div>';
+  bloc.innerHTML=h;
+  jeu.appendChild(bloc);
+});
+
+jeu.addEventListener('click',function(e){
+  var b=e.target.closest('.nom-btn');
+  if(!b||b.disabled) return;
+  var zone=b.parentElement;
+  var idx=parseInt(zone.dataset.idx,10);
+  var m=MENACES[idx];
+  var rep=zone.parentElement.querySelector('.rep');
+  if(b.dataset.nom===m.nom){
+    zone.querySelectorAll('.nom-btn').forEach(function(x){
+      x.disabled=true;
+      if(x===b) x.classList.add('bon');
+    });
+    rep.innerHTML='<div class="resultat ok"><span class="tag ok">'+m.nom+'</span>'+
+      '<p style="margin-bottom:0"><b>Définition :</b> '+m.def+'</p></div>';
+    trouves++;
+    document.getElementById('progres').textContent=trouves+' / 6 reconnus';
+    if(trouves===MENACES.length){
+      CR.marquer('bestiaire');
+      document.getElementById('bilan').innerHTML=
+        '<div class="resultat ok" style="margin-top:20px"><span class="tag ok">Bestiaire complet</span>'+
+        '<p style="margin-bottom:0">Les 6 familles sont identifiées. Assemblez maintenant vos trios sur le poster mural : il restera visible toute la journée et servira au cas pratique final.</p></div>';
+    }
+  } else {
+    b.classList.add('choisi'); b.disabled=true;
+    rep.innerHTML='<div class="resultat verif"><span class="tag verif">Pas celle-là</span>'+
+      '<p style="margin-bottom:0">« '+b.dataset.nom+' » ne colle pas à cette situation — discutez en équipe et essayez une autre bête.</p></div>';
+  }
+});
+})();
+</script>
+</body>
+</html>

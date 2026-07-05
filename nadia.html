@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cas pratique · Le journal de Nadia — Cyber-réflexes</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.dossier{display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap}
+.photo{width:74px; height:74px; border-radius:50%; background:var(--mauve-soft);
+  display:flex; align-items:center; justify-content:center; font-size:36px; flex:none}
+.jour{background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); margin-bottom:14px; overflow:hidden}
+.jour-tete{width:100%; display:flex; align-items:center; gap:12px; padding:14px 16px;
+  background:none; border:none; cursor:pointer; text-align:left; font-size:16px; min-height:56px}
+.jour-tete .num{font-weight:800; color:#fff; border-radius:10px; padding:4px 11px; flex:none;
+  background:linear-gradient(135deg,var(--mauve),var(--blue))}
+.jour-tete .titre{font-weight:700; flex:1}
+.jour-tete .etat{font-size:13.5px; color:var(--muted); flex:none}
+.jour.fait .etat{color:var(--ok); font-weight:700}
+.jour-corps{display:none; padding:0 16px 18px; border-top:2px dashed var(--border)}
+.jour.ouvert .jour-corps{display:block}
+.citation{background:var(--grey-soft); border-left:4px solid var(--muted); border-radius:8px;
+  padding:12px 16px; margin:14px 0; font-style:italic}
+.gravite{display:flex; gap:10px; flex-wrap:wrap}
+.gbtn{min-height:50px; flex:1; min-width:118px; border-radius:12px; border:2px solid var(--border);
+  background:var(--card); font-weight:800; font-size:14px; cursor:pointer; text-transform:uppercase; letter-spacing:.03em}
+.gbtn[data-g="1"].on{border-color:var(--warn); color:var(--warn); background:var(--warn-soft)}
+.gbtn[data-g="2"].on{border-color:#B05A10; color:#B05A10; background:#FAEBDC}
+.gbtn[data-g="3"].on{border-color:var(--bad); color:var(--bad); background:var(--bad-soft)}
+.ligne-rapport{border-bottom:1px solid var(--border); padding:12px 0}
+.ligne-rapport:last-child{border-bottom:none}
+.ligne-rapport .jt{font-weight:800; color:var(--mauve-dark)}
+#rapport,#validation{display:none}
+#rapport.actif,#validation.actif{display:block}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="logo">🛡</span>Cyber-réflexes</a>
+  <span class="etape-tag">Cas pratique · 15:00–15:50</span>
+  <span class="spacer"></span>
+  <span class="progres mono" id="progres">0 / 7 analysés</span>
+</header>
+
+<main>
+  <div class="hero-etape">
+    <div class="surtitre">Cas pratique · DigComp 4.1 · 4.2</div>
+    <h1>Le journal de Nadia</h1>
+    <p class="sous">Mobiliser tous les acquis de la journée sur une situation complète, en équipe, avec restitution.</p>
+    <div class="meta-grid">
+      <div class="meta"><b>Objectif</b>Tout relier : verrou, accès, pièges, données, réaction</div>
+      <div class="meta"><b>Livrable</b>Rapport de synthèse + restitution orale de 3 minutes</div>
+      <div class="meta"><b>Durée d'enquête</b>25 minutes</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>La fiche de cas</h2>
+    <div class="card dossier">
+      <div class="photo">👤</div>
+      <div style="flex:1; min-width:240px">
+        <span class="tag alerte">Fiche de cas</span>
+        <p style="margin:10px 0 0"><b style="font-size:18px">Nadia D., 34 ans</b> — en recherche d'emploi.<br>
+        En une semaine, sa vie numérique a déraillé. Son journal de bord compte 7 événements.
+        Pour chacun : <b>nommez l'erreur</b>, dites <b>ce qu'il fallait faire</b>, évaluez la <b>gravité</b>.</p>
+        <p style="margin:8px 0 0; color:var(--muted)">Vos supports de la journée (bestiaire, fiches, cartes-mémo)
+        sont autorisés — et recommandés. Ce n'est pas de la triche, c'est le métier.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">🕵️</span><b>Enquête — le journal de bord</b></div>
+    <div class="exo-corps">
+      <div id="journal"></div>
+    </div>
+  </section>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">🚨</span><b>Plan d'urgence — les 3 premières actions pour Nadia</b></div>
+    <div class="exo-corps">
+      <p>Dans l'ordre. Qu'est-ce qu'on fait <b>en premier, aujourd'hui</b>, pour limiter les dégâts ?</p>
+      <label for="u1">Action 1</label><textarea id="u1"></textarea>
+      <label for="u2">Action 2</label><textarea id="u2"></textarea>
+      <label for="u3">Action 3</label><textarea id="u3"></textarea>
+      <div class="actions">
+        <button class="btn" id="genRapport">Générer le rapport de synthèse</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="rapport">
+    <h2>Rapport de synthèse — équipe</h2>
+    <div id="rapportCorps"></div>
+    <h2 style="margin-top:22px">Plan d'urgence proposé</h2>
+    <ol id="rapportUrgence"></ol>
+    <div class="actions">
+      <button class="btn bleu" id="comparer">Comparer avec la correction proposée</button>
+    </div>
+    <div id="validation">
+      <div class="resultat ok" style="margin-top:18px">
+        <span class="tag ok">Cas pratique bouclé</span>
+        <p><b>Séquence d'urgence attendue :</b></p>
+        <ol>
+          <li><b>Card Stop 078 170 170 + la banque</b> — des données bancaires ont fuité et des retraits apparaissent : on bloque d'abord l'argent.</li>
+          <li><b>Changer les mots de passe depuis un appareil sain</b> — la boîte mail en premier (elle permet de réinitialiser tout le reste), et un mot de passe DIFFÉRENT par compte.</li>
+          <li><b>Signaler et porter plainte</b> — messages suspects à suspect@safeonweb.be, plainte à la police (argent perdu + carte d'identité envoyée = risque d'usurpation), preuves conservées (captures).</li>
+        </ol>
+        <p><b>Puis, à froid :</b> un code sur le téléphone, des phrases de passe uniques, le CV nettoyé
+        (retirer registre national, adresse complète, date de naissance), et ne plus jamais payer une rançon —
+        ça ne garantit rien et ça finance la suite.</p>
+        <div class="memo" style="margin-bottom:0">Vos réponses peuvent être formulées autrement et rester justes :
+        ce qui compte à la restitution, c'est <b>l'ordre</b> (l'argent d'abord) et le <b>POURQUOI</b> de chaque action.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>La restitution</h2>
+    <div class="card">
+      <p><b>3 minutes par équipe :</b> les 3 erreurs les plus graves selon vous, et vos 3 actions d'urgence.</p>
+      <p style="margin-bottom:0">Les équipes se complètent — pas de classement, pas de gagnant :
+      <b>l'opération réussit si Nadia est protégée.</b></p>
+    </div>
+  </section>
+</main>
+
+<nav class="pager">
+  <a href="etape5.html"><span class="dir">← Étape précédente</span><span class="titre" style="display:block">Réagir en cas d'incident</span></a>
+  <a class="suivant" href="cloture.html"><span class="dir">Dernière étape →</span><span class="titre" style="display:block">Clôture — faire le point</span></a>
+</nav>
+<footer class="colophon">Atelier Cyber-réflexes · Personnage fictif. Rien n'est enregistré : notez votre rapport sur la feuille A3 avant de fermer la page.</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+var JOURS=[
+ {j:'Lundi', t:'Le nouveau GSM', q:'Mon nouveau GSM est super. Pas mis de code, ça me fait gagner du temps.'},
+ {j:'Lundi', t:'Un seul mot de passe', q:'J\'ai mis le même mot de passe partout : nadia1990. Comme ça je ne l\'oublie pas.'},
+ {j:'Mardi', t:'Le colis bpost', q:'Reçu un SMS de bpost pour un colis bloqué. J\'ai payé les 1,99 € de frais avec ma carte, via le lien.'},
+ {j:'Mercredi', t:'Le Wi-Fi du café', q:'Au café, j\'ai profité du Wi-Fi gratuit pour consulter mon compte en banque.'},
+ {j:'Jeudi', t:'Le CV complet', q:'J\'ai mis mon CV en ligne avec tout : adresse complète, date de naissance, numéro de registre national. Plus c\'est complet, plus c\'est sérieux, non ?'},
+ {j:'Vendredi', t:'L\'offre en or', q:'Une offre d\'emploi incroyable par mail : 3 500 € en télétravail ! Ils voulaient juste une copie de ma carte d\'identité pour finaliser. Je l\'ai envoyée.'},
+ {j:'Samedi', t:'Catastrophe', q:'Mon PC est bloqué, tous mes fichiers sont verrouillés, on me réclame 500 €. Et des retraits bizarres apparaissent sur mon compte…'}
+];
+var etat=JOURS.map(function(){return {erreur:'', action:'', grav:0, fait:false};});
+var wrap=document.getElementById('journal');
+
+JOURS.forEach(function(d,i){
+  var el=document.createElement('section'); el.className='jour'; el.id='jour-'+i;
+  el.innerHTML=
+   '<button class="jour-tete" data-i="'+i+'" aria-expanded="false">'+
+     '<span class="num">'+(i+1)+'</span><span class="titre">'+d.j+' — '+d.t+'</span>'+
+     '<span class="etat" id="etat-'+i+'">à analyser</span></button>'+
+   '<div class="jour-corps">'+
+     '<div class="citation">« '+d.q+' »</div>'+
+     '<label for="err-'+i+'">Quelle est l\'erreur ?</label>'+
+     '<textarea id="err-'+i+'"></textarea>'+
+     '<label for="act-'+i+'">Qu\'est-ce qu\'il fallait faire à la place ?</label>'+
+     '<textarea id="act-'+i+'"></textarea>'+
+     '<label>Gravité</label>'+
+     '<div class="gravite" data-i="'+i+'">'+
+       '<button class="gbtn" data-g="1">1 · Imprudence</button>'+
+       '<button class="gbtn" data-g="2">2 · Risqué</button>'+
+       '<button class="gbtn" data-g="3">3 · Critique</button></div>'+
+     '<div class="actions"><button class="btn valider-jour" data-i="'+i+'">Valider l\'analyse</button></div>'+
+   '</div>';
+  wrap.appendChild(el);
+});
+
+wrap.addEventListener('click',function(e){
+  var tete=e.target.closest('.jour-tete');
+  if(tete){
+    var jr=tete.parentElement;
+    jr.classList.toggle('ouvert');
+    tete.setAttribute('aria-expanded', jr.classList.contains('ouvert')?'true':'false');
+    return;
+  }
+  var g=e.target.closest('.gbtn');
+  if(g){
+    var zone=g.parentElement, i=parseInt(zone.dataset.i,10);
+    zone.querySelectorAll('.gbtn').forEach(function(x){x.classList.remove('on');});
+    g.classList.add('on');
+    etat[i].grav=parseInt(g.dataset.g,10);
+    return;
+  }
+  var v=e.target.closest('.valider-jour');
+  if(v){
+    var i=parseInt(v.dataset.i,10);
+    etat[i].erreur=document.getElementById('err-'+i).value.trim();
+    etat[i].action=document.getElementById('act-'+i).value.trim();
+    if(!etat[i].erreur || !etat[i].action || !etat[i].grav){
+      document.getElementById('etat-'+i).textContent='incomplet — erreur, action et gravité';
+      return;
+    }
+    etat[i].fait=true;
+    var jr=document.getElementById('jour-'+i);
+    jr.classList.add('fait'); jr.classList.remove('ouvert');
+    jr.querySelector('.jour-tete').setAttribute('aria-expanded','false');
+    document.getElementById('etat-'+i).textContent='✓ analysé';
+    var n=etat.filter(function(x){return x.fait;}).length;
+    document.getElementById('progres').textContent=n+' / 7 analysés';
+  }
+});
+
+var GTAG={1:'verif',2:'verif',3:'alerte'};
+document.getElementById('genRapport').addEventListener('click',function(){
+  var corps=document.getElementById('rapportCorps');
+  var html='';
+  JOURS.forEach(function(d,i){
+    var s=etat[i];
+    html+='<div class="ligne-rapport"><span class="jt">'+(i+1)+'. '+d.j+' — '+d.t+'</span>'+
+      (s.grav?' <span class="tag '+GTAG[s.grav]+'">Gravité '+s.grav+'</span>':'')+
+      '<br><b>Erreur :</b> '+(s.erreur||'<i>non analysé</i>')+
+      '<br><b>À faire :</b> '+(s.action||'<i>non analysé</i>')+'</div>';
+  });
+  corps.innerHTML=html;
+  var ul=document.getElementById('rapportUrgence'); ul.innerHTML='';
+  ['u1','u2','u3'].forEach(function(id){
+    var t=document.getElementById(id).value.trim();
+    if(t){var li=document.createElement('li'); li.textContent=t; ul.appendChild(li);}
+  });
+  var r=document.getElementById('rapport');
+  r.classList.add('actif');
+  r.scrollIntoView({behavior:'smooth'});
+});
+
+document.getElementById('comparer').addEventListener('click',function(){
+  CR.marquer('nadia');
+  var v=document.getElementById('validation');
+  v.classList.add('actif');
+  v.scrollIntoView({behavior:'smooth'});
+});
+})();
+</script>
+</body>
+</html>

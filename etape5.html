@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Étape 5 · Réagir en cas d'incident — Cyber-réflexes</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.ordre-jeu{display:grid; gap:10px}
+.ordre-btn{display:flex; align-items:center; gap:14px; text-align:left;
+  background:var(--card); border:2px solid var(--border); border-radius:14px;
+  padding:14px 16px; font-size:15.5px; cursor:pointer; min-height:56px}
+.ordre-btn:hover{border-color:var(--mauve)}
+.ordre-btn .rang{width:34px; height:34px; border-radius:50%; flex:none;
+  background:var(--grey-soft); color:var(--muted); font-weight:800;
+  display:flex; align-items:center; justify-content:center}
+.ordre-btn.place{border-color:var(--ok); background:var(--ok-soft); cursor:default}
+.ordre-btn.place .rang{background:var(--ok); color:#fff}
+.ordre-btn.raté{animation:secousse .3s}
+@keyframes secousse{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.scenario{background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:18px 20px; margin-bottom:16px}
+.scenario .enonce{font-style:italic; background:var(--grey-soft); border-radius:10px; padding:12px 16px}
+.scenario .attendu{display:none; margin-top:12px}
+.scenario .attendu.actif{display:block}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="logo">🛡</span>Cyber-réflexes</a>
+  <span class="etape-tag">Étape 5 · 14:00–14:45</span>
+</header>
+
+<main>
+  <div class="hero-etape">
+    <div class="surtitre">Étape 5 · DigComp 4.2</div>
+    <h1>Réagir en cas d'incident</h1>
+    <p class="sous">Savoir réagir dans l'ordre face à un incident : premières actions, signalement, erreurs à éviter.</p>
+    <div class="meta-grid">
+      <div class="meta"><b>Objectif</b>Les bons réflexes, dans le bon ordre</div>
+      <div class="meta"><b>Livrable</b>Procédure personnelle « Je fais quoi d'abord ? » + contacts officiels</div>
+      <div class="meta"><b>Format</b>Équipes + correction collective</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Changement de ton</h2>
+    <div class="quote">« Jusqu'ici on a appris à éviter les pièges. Mais une personne bien entraînée sait aussi
+    quoi faire quand ça arrive quand même — parce que ça peut arriver à tout le monde, y compris aux experts.
+    La honte ne protège de rien ; les bons réflexes, si. »</div>
+    <div class="avert"><b>Les deux erreurs à ne jamais commettre :</b>
+      <b>n°1</b> — ne rien dire par honte : la victime n'est jamais coupable, les arnaques sont conçues par des professionnels pour fonctionner.
+      <b>n°2</b> — payer une rançon : ça ne garantit rien et ça finance la suite.</div>
+  </section>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">🧭</span><b>Exercice 1 — la procédure dans l'ordre</b></div>
+    <div class="exo-corps">
+      <p>La procédure universelle compte 5 réflexes. Touchez-les <b>dans l'ordre</b> — du premier au dernier.</p>
+      <div class="ordre-jeu" id="ordreJeu"></div>
+      <div id="ordreBilan"></div>
+    </div>
+  </section>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">🎭</span><b>Exercice 2 — les scénarios</b></div>
+    <div class="exo-corps">
+      <p>Votre équipe tire 2 scénarios (ou faites-les tous). Pour chacun : écrivez les <b>3 premières actions,
+      dans l'ordre</b> — puis comparez avec la correction.</p>
+      <div id="scenarios"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>LA ressource à retenir : Safeonweb</h2>
+    <div class="card">
+      <p><b>safeonweb.be</b> — le site officiel belge du Centre pour la Cybersécurité :</p>
+      <ul>
+        <li>l'actualité des arnaques en cours en Belgique ;</li>
+        <li>un test pour s'entraîner à repérer le phishing ;</li>
+        <li>l'application d'alerte Safeonweb.</li>
+      </ul>
+      <div class="cle" style="margin-bottom:0"><b>C'est LE point de repère</b> à garder après la formation.</div>
+    </div>
+  </section>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">📋</span><b>Livrable — ma procédure « Je fais quoi d'abord ? »</b></div>
+    <div class="exo-corps">
+      <p>Ces contacts partent avec vous, format carte de portefeuille :</p>
+      <div class="grid2">
+        <div class="mini-carte"><b>💳 Card Stop</b><br><span class="mono" style="font-size:19px">078 170 170</span><br><small>24 h/24 — carte volée, données bancaires compromises</small></div>
+        <div class="mini-carte"><b>📧 Signalement</b><br><span class="mono">suspect@safeonweb.be</span><br><small>transférer le message suspect, puis le supprimer</small></div>
+        <div class="mini-carte"><b>🌐 Référence</b><br><span class="mono">safeonweb.be</span><br><small>arnaques en cours, tests, application d'alerte</small></div>
+        <div class="mini-carte"><b>🏛️ Argent perdu / identité volée</b><br>Ma banque + plainte à la police locale<br><small>avec les preuves (captures d'écran)</small></div>
+      </div>
+      <div class="actions">
+        <button class="btn" id="finEtape">✓ J'ai terminé cette étape</button>
+      </div>
+      <div id="finMsg"></div>
+    </div>
+  </section>
+</main>
+
+<nav class="pager">
+  <a href="etape4.html"><span class="dir">← Étape précédente</span><span class="titre" style="display:block">Maîtriser ses données</span></a>
+  <a class="suivant" href="nadia.html"><span class="dir">Étape suivante →</span><span class="titre" style="display:block">Cas pratique — le journal de Nadia</span></a>
+</nav>
+<footer class="colophon">Atelier Cyber-réflexes · Aucune donnée n'est enregistrée ni envoyée.</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+/* ---- Exercice 1 : remettre la procédure dans l'ordre ---- */
+var ETAPES=[
+ {t:'STOP — je coupe l\'interaction', d:'je raccroche, je ferme, je déconnecte'},
+ {t:'Si données bancaires en jeu : Card Stop 078 170 170 + ma banque', d:'immédiatement — on bloque l\'argent d\'abord'},
+ {t:'Je change les mots de passe concernés depuis un appareil sûr', d:'la boîte mail d\'abord — c\'est elle qui ouvre tout le reste'},
+ {t:'Je signale', d:'message suspect → suspect@safeonweb.be · perte d\'argent → plainte à la police locale'},
+ {t:'Je préviens mes proches et je garde les preuves', d:'si mon compte a pu leur écrire · captures d\'écran'}
+];
+var melange=[3,1,4,0,2]; // ordre d'affichage volontairement mélangé
+var attendu=0;
+var jeu=document.getElementById('ordreJeu');
+melange.forEach(function(idx){
+  var b=document.createElement('button');
+  b.className='ordre-btn'; b.dataset.idx=idx;
+  b.innerHTML='<span class="rang">?</span><span><b>'+ETAPES[idx].t+'</b><br><small style="color:var(--muted)">'+ETAPES[idx].d+'</small></span>';
+  jeu.appendChild(b);
+});
+jeu.addEventListener('click',function(e){
+  var b=e.target.closest('.ordre-btn');
+  if(!b||b.classList.contains('place')) return;
+  var idx=parseInt(b.dataset.idx,10);
+  if(idx===attendu){
+    b.classList.add('place');
+    b.querySelector('.rang').textContent=idx+1;
+    attendu++;
+    if(attendu===ETAPES.length){
+      document.getElementById('ordreBilan').innerHTML=
+        '<div class="resultat ok" style="margin-top:14px"><span class="tag ok">Procédure maîtrisée</span>'+
+        '<p style="margin-bottom:0">C\'est cet ordre-là qui limite les dégâts : on coupe, on bloque l\'argent, on reprend les accès, on signale, on protège les autres.</p></div>';
+    }
+  } else {
+    b.classList.remove('raté'); void b.offsetWidth; b.classList.add('raté');
+  }
+});
+
+/* ---- Exercice 2 : scénarios ---- */
+var SCENARIOS=[
+ {s:'J\'ai cliqué sur un lien et rempli mes coordonnées bancaires.',
+  a:['Card Stop 078 170 170 + ma banque immédiatement.',
+     'Surveiller le compte / faire bloquer.',
+     'Signaler à suspect@safeonweb.be ; plainte à la police si de l\'argent a bougé.']},
+ {s:'Mon compte Facebook envoie des messages tout seul à mes contacts.',
+  a:['Changer le mot de passe (et celui de la boîte mail s\'il est identique).',
+     'Déconnecter toutes les sessions dans les paramètres de sécurité.',
+     'Prévenir mes contacts de ne pas cliquer.']},
+ {s:'J\'ai donné un code reçu par SMS à quelqu\'un qui se disait de la banque.',
+  a:['Raccrocher, ne pas rappeler.',
+     'Appeler soi-même la vraie banque + Card Stop 078 170 170.',
+     'Changer les mots de passe concernés ; garder les preuves.']},
+ {s:'Mon PC est bloqué, un message réclame 500 €.',
+  a:['Ne pas payer — payer ne garantit rien et finance la suite.',
+     'Débrancher le PC du réseau.',
+     'Demander de l\'aide (proche compétent, réparateur) et signaler ; plainte à la police.']},
+ {s:'J\'ai envoyé une copie de ma carte d\'identité pour une offre d\'emploi qui était fausse.',
+  a:['Plainte à la police (risque d\'usurpation d\'identité) — avec les preuves.',
+     'Prévenir sa banque, surveiller ses comptes.',
+     'Signaler à suspect@safeonweb.be ; se méfier des contacts qui suivront (les données se revendent).']}
+];
+var wrap=document.getElementById('scenarios');
+SCENARIOS.forEach(function(sc,i){
+  var d=document.createElement('div'); d.className='scenario';
+  d.innerHTML='<div><span class="tag mauve">Scénario '+(i+1)+'</span></div>'+
+    '<div class="enonce" style="margin-top:10px">« '+sc.s+' »</div>'+
+    '<label for="s'+i+'a">Vos 3 premières actions, dans l\'ordre</label>'+
+    '<textarea id="s'+i+'a" placeholder="1. …&#10;2. …&#10;3. …" style="min-height:90px"></textarea>'+
+    '<div class="actions"><button class="btn ghost" data-i="'+i+'">Comparer avec la correction</button></div>'+
+    '<div class="attendu" id="att-'+i+'"><div class="resultat ok"><span class="tag ok">Actions attendues</span>'+
+    '<ol style="margin-bottom:0">'+sc.a.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ol></div></div>';
+  wrap.appendChild(d);
+});
+wrap.addEventListener('click',function(e){
+  var b=e.target.closest('button[data-i]'); if(!b) return;
+  document.getElementById('att-'+b.dataset.i).classList.add('actif');
+});
+
+document.getElementById('finEtape').addEventListener('click',function(){
+  CR.marquer('etape5');
+  document.getElementById('finMsg').innerHTML=
+    '<div class="resultat ok"><span class="tag ok">Étape validée</span>'+
+    '<p style="margin-bottom:0">Vous savez maintenant quoi faire, dans l\'ordre. Place au cas pratique final : le journal de Nadia.</p></div>';
+});
+})();
+</script>
+</body>
+</html>

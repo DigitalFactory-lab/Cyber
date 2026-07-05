@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Étape 2 · Protéger ses accès — Cyber-réflexes</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.jauge{height:24px; background:var(--grey-soft); border-radius:12px; overflow:hidden; margin:18px 0 8px}
+.jauge > div{height:100%; width:0%; border-radius:12px; transition:width .3s ease, background .3s ease}
+.temps{font-size:29px; font-weight:800; margin:6px 0 2px}
+.temps small{display:block; font-size:14px; font-weight:400; color:var(--muted)}
+#mdp{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:21px}
+.etapes-methode{counter-reset:et; list-style:none; padding:0}
+.etapes-methode li{counter-increment:et; display:flex; gap:14px; align-items:flex-start; margin-bottom:12px}
+.etapes-methode li::before{content:counter(et); flex:none; width:32px; height:32px; border-radius:50%;
+  background:var(--mauve-soft); color:var(--mauve-dark); font-weight:800; display:flex; align-items:center; justify-content:center}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="logo">🛡</span>Cyber-réflexes</a>
+  <span class="etape-tag">Étape 2 · 10:40–11:20</span>
+</header>
+
+<main>
+  <div class="hero-etape">
+    <div class="surtitre">Étape 2 · DigComp 4.1</div>
+    <h1>Protéger ses accès</h1>
+    <p class="sous">Protéger ses comptes : mot de passe robuste, phrase de passe, double authentification.</p>
+    <div class="meta-grid">
+      <div class="meta"><b>Objectif</b>La longueur bat la complexité</div>
+      <div class="meta"><b>Livrable</b>Carte-mémo « Mes 4 réflexes accès » + une phrase de passe personnelle (secrète)</div>
+      <div class="meta"><b>Format</b>Équipes + individuel</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Le mot de passe le plus utilisé au monde</h2>
+    <div class="card">
+      <p>Devinez… réponse : <b class="mono">123456</b>, suivi de <span class="mono">azerty</span>,
+      <span class="mono">qwerty</span> et <span class="mono">password</span>.</p>
+      <p style="margin-bottom:0">Premier constat : <b>les pirates connaissent ces listes par cœur</b> —
+      leurs logiciels les testent en premier, automatiquement, par millions.</p>
+    </div>
+  </section>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">⏱️</span><b>Exercice — testeur de robustesse</b></div>
+    <div class="exo-corps">
+      <div class="avert"><b>Point important :</b> on n'entre <b>JAMAIS</b> un vrai mot de passe ici — on invente pour s'entraîner.
+      Cette page fonctionne entièrement hors ligne : rien de ce que vous tapez ne quitte la tablette.</div>
+
+      <label for="mdp">Mot de passe d'entraînement</label>
+      <input type="text" id="mdp" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        placeholder="Inventez quelque chose…">
+      <div class="jauge"><div id="barre"></div></div>
+      <div class="temps" id="temps">—<small>temps estimé pour le casser (ordinateur d'attaque : 10 milliards d'essais par seconde)</small></div>
+      <div id="verdictZone"></div>
+      <div id="analyse"></div>
+
+      <h3>Ou testez les exemples de la mission</h3>
+      <div class="chips" id="chips">
+        <button class="chip">azerty</button>
+        <button class="chip">Julie1987</button>
+        <button class="chip">Julie1987!</button>
+        <button class="chip">X7#p2</button>
+        <button class="chip">ChevalVioletMangeFrites</button>
+      </div>
+      <div class="cle" style="margin-bottom:0"><b>Ce que le testeur démontre :</b> la <b>longueur</b> bat la complexité.
+        Quatre mots sans lien, faciles à retenir avec une image mentale absurde, tiennent des siècles —
+        là où un mot « compliqué » mais court tombe en quelques jours.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Fabriquer sa phrase de passe — la méthode des 4 mots</h2>
+    <div class="card">
+      <ol class="etapes-methode">
+        <li>Choisissez <b>quatre mots sans lien logique</b> entre eux (ex. : cheval · violet · mange · frites).</li>
+        <li>Créez une <b>image mentale absurde</b> pour les retenir — plus c'est ridicule, mieux ça marche.</li>
+        <li>Testez une <b>version légèrement modifiée</b> dans le testeur ci-dessus — jamais la vraie.</li>
+        <li>Ne la dites à <b>personne</b> — y compris à la formatrice. Personne de légitime ne demande votre mot de passe.</li>
+      </ol>
+      <div class="memo" style="margin-bottom:0"><b>Premier compte à protéger ainsi : votre boîte mail.</b>
+        C'est elle qui permet de réinitialiser tous les autres comptes — c'est la clé du trousseau.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>La double authentification, sans jargon</h2>
+    <div class="card">
+      <p>Vous la connaissez déjà : le code de la banque reçu par SMS, ou l'app <b>itsme</b> pour les démarches
+      (banque, MyPension, tax-on-web). C'est ça, la double authentification :
+      <b>même si quelqu'un vole le mot de passe, il lui manque le téléphone.</b></p>
+      <div class="avert" style="margin-bottom:0"><b>Règle d'or associée :</b> un code reçu par SMS ne se partage <b>JAMAIS</b>,
+      avec personne — même « la banque » au téléphone. La banque ne le demande jamais.</div>
+    </div>
+  </section>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">📋</span><b>Livrable — Mes 4 réflexes accès</b></div>
+    <div class="exo-corps">
+      <p>Cochez où vous en êtes, puis entourez votre <b>prochain pas</b> sur la carte-mémo papier.</p>
+      <div class="grid2">
+        <div class="mini-carte"><b>1.</b> Ma boîte mail a un mot de passe <b>UNIQUE et LONG</b> — c'est la clé de tous mes autres comptes.</div>
+        <div class="mini-carte"><b>2.</b> Une <b>phrase de passe</b> (4 mots sans lien) vaut mieux qu'un mot compliqué : la longueur bat la complexité.</div>
+        <div class="mini-carte"><b>3.</b> J'active la <b>double authentification</b> sur mes comptes importants (banque, mail, itsme).</div>
+        <div class="mini-carte"><b>4.</b> Un code reçu par SMS <b>ne se partage JAMAIS</b> — même avec « la banque » au téléphone.</div>
+      </div>
+      <div class="actions">
+        <button class="btn" id="finEtape">✓ J'ai terminé cette étape</button>
+      </div>
+      <div id="finMsg"></div>
+    </div>
+  </section>
+</main>
+
+<nav class="pager">
+  <a href="bestiaire.html"><span class="dir">← Étape précédente</span><span class="titre" style="display:block">Bestiaire des menaces</span></a>
+  <a class="suivant" href="etape3.html"><span class="dir">Étape suivante →</span><span class="titre" style="display:block">Repérer les messages piégés</span></a>
+</nav>
+<footer class="colophon">Atelier Cyber-réflexes · 100 % hors ligne — aucune donnée enregistrée ni envoyée.</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+  var COMMUNS=['123456','1234567','12345678','123456789','1234567890','000000','111111','azerty','azertyuiop',
+    'qwerty','password','motdepasse','admin','soleil','bonjour','doudou','chocolat','marseille','loulou',
+    'iloveyou','welcome','football','princesse','superman','azerty123','abc123','password1'];
+  var SEQ=['azerty','qwerty','abcdef','123456','654321','abcd','wxcvbn'];
+
+  var input=document.getElementById('mdp');
+  var barre=document.getElementById('barre');
+  var temps=document.getElementById('temps');
+  var vz=document.getElementById('verdictZone');
+  var an=document.getElementById('analyse');
+  var aTeste=false;
+
+  document.getElementById('chips').addEventListener('click',function(e){
+    if(e.target.classList.contains('chip')){input.value=e.target.textContent; evalue();}
+  });
+  input.addEventListener('input',evalue);
+
+  function humanise(sec){
+    if(sec<1) return 'Instantané';
+    var u=[['seconde',60],['minute',60],['heure',24],['jour',365],['an',100],['siècle',Infinity]];
+    var val=sec, nom='seconde';
+    for(var i=0;i<u.length;i++){
+      nom=u[i][0];
+      if(val<u[i][1]) break;
+      val=val/u[i][1];
+    }
+    if(nom==='siècle' && val>1e9) return 'Plus vieux que l\'univers';
+    if(nom==='siècle' && val>1e6) return 'Des millions de siècles';
+    var n=Math.round(val);
+    var pl=(n>1)?(nom==='an'?'ans':nom+'s'):nom;
+    return n+' '+pl;
+  }
+
+  function evalue(){
+    var p=input.value;
+    an.innerHTML=''; vz.innerHTML='';
+    if(!p){barre.style.width='0%'; temps.firstChild.textContent='—'; return;}
+    if(!aTeste){aTeste=true;}
+
+    var bas=p.toLowerCase();
+    var points=[];
+    var commun = COMMUNS.indexOf(bas)>-1;
+    var quasiCommun = !commun && COMMUNS.some(function(c){return bas.indexOf(c)===0 && bas.length<=c.length+3;});
+
+    var charset=0;
+    if(/[a-z]/.test(p)) charset+=26;
+    if(/[A-Z]/.test(p)) charset+=26;
+    if(/[0-9]/.test(p)) charset+=10;
+    if(/[^a-zA-Z0-9]/.test(p)) charset+=33;
+    if(charset===0) charset=10;
+
+    var essaisParSec=1e10;
+    var combi=Math.pow(charset,p.length);
+    var sec=combi/essaisParSec/2;
+
+    if(commun){sec=0; points.push('Ce mot de passe figure dans les listes que les pirates testent en premier : il tombe immédiatement, quelle que soit sa longueur.');}
+    if(quasiCommun){sec=Math.min(sec,5); points.push('Base très courante légèrement modifiée — les logiciels d\'attaque testent aussi ces variantes.');}
+    SEQ.forEach(function(s){ if(bas.indexOf(s)>-1 && !commun){ sec=sec/1e3; points.push('Contient une suite de clavier ou de chiffres (« '+s+' ») : les attaques par dictionnaire la connaissent.'); }});
+    if(/(19|20)\d{2}/.test(p)){ sec=sec/50; points.push('Contient une année — prévisible, surtout collée à un prénom.'); }
+    if(/^[A-Z][a-z]+\d{2,4}[!?.]?$/.test(p)){ sec=sec/1e3; points.push('Schéma « Prénom + année (+ ponctuation) » : c\'est le modèle le plus répandu, donc le plus testé.'); }
+
+    var mots = p.length>=14 && (/[A-Z][a-z]+[A-Z]/.test(p) || /[ -]/.test(p));
+    if(p.length>=16){points.push('Longueur ≥ 16 caractères : c\'est elle qui fait exploser le temps de cassage.');}
+    if(mots){points.push('Ressemble à une phrase de passe (plusieurs mots) : facile à retenir, terrible à casser — la bonne stratégie.');}
+    if(p.length<=6 && !commun){points.push('Trop court : même avec des symboles, '+p.length+' caractères se cassent vite.');}
+
+    temps.firstChild.textContent=humanise(sec);
+
+    var niveau, largeur, couleur, libelle;
+    if(sec<60){niveau='alerte'; largeur='12%'; couleur='#CC3D55'; libelle='Fragile';}
+    else if(sec<3600*24){niveau='alerte'; largeur='30%'; couleur='#CC3D55'; libelle='Faible';}
+    else if(sec<3600*24*365*2){niveau='verif'; largeur='55%'; couleur='#C27A0E'; libelle='Moyen';}
+    else if(sec<3600*24*365*200){niveau='verif'; largeur='75%'; couleur='#C27A0E'; libelle='Bon';}
+    else {niveau='ok'; largeur='100%'; couleur='#238C60'; libelle='Solide';}
+    barre.style.width=largeur; barre.style.background=couleur;
+    vz.innerHTML='<span class="tag '+niveau+'">'+libelle+'</span>';
+
+    if(points.length){
+      var html='<ul>'; points.forEach(function(pt){html+='<li>'+pt+'</li>';}); html+='</ul>';
+      an.innerHTML=html;
+    }
+  }
+
+  document.getElementById('finEtape').addEventListener('click',function(){
+    CR.marquer('etape2');
+    document.getElementById('finMsg').innerHTML=
+      '<div class="resultat ok"><span class="tag ok">Étape validée</span>'+
+      '<p style="margin-bottom:0">Votre phrase de passe reste dans votre tête — c\'est exactement là qu\'elle doit être. Prochaine étape : les messages piégés.</p></div>';
+  });
+})();
+</script>
+</body>
+</html>

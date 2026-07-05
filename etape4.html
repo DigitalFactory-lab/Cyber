@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Étape 4 · Maîtriser ses données — Cyber-réflexes</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.donnee{background:var(--card); border:1px solid var(--border); border-radius:14px;
+  box-shadow:var(--shadow); padding:16px 18px; margin-bottom:14px}
+.donnee .intitule{font-weight:700; font-size:16.5px; display:flex; align-items:center; gap:10px}
+.donnee .intitule .pic{font-size:22px}
+.zones{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
+.zbtn{flex:1; min-width:104px; min-height:50px; border-radius:12px; border:2px solid; background:var(--card);
+  font-weight:800; font-size:14px; letter-spacing:.03em; cursor:pointer; text-transform:uppercase}
+.z-vert{color:var(--ok); border-color:var(--ok)}
+.z-orange{color:var(--warn); border-color:var(--warn)}
+.z-rouge{color:var(--bad); border-color:var(--bad)}
+.zbtn.choisi{color:#fff}
+.z-vert.choisi{background:var(--ok)}.z-orange.choisi{background:var(--warn)}.z-rouge.choisi{background:var(--bad)}
+.zbtn:disabled{opacity:.4}
+.zbtn.choisi:disabled,.zbtn.attendu:disabled{opacity:1}
+.zbtn.attendu:not(.choisi){box-shadow:inset 0 0 0 2px currentColor}
+.correction{display:none; margin-top:12px}
+.correction.actif{display:block}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="logo">🛡</span>Cyber-réflexes</a>
+  <span class="etape-tag">Étape 4 · 13:15–14:00</span>
+  <span class="spacer"></span>
+  <span class="progres mono" id="progres">0 / 16 triées</span>
+</header>
+
+<main>
+  <div class="hero-etape">
+    <div class="surtitre">Étape 4 · DigComp 4.2</div>
+    <h1>Maîtriser ses données</h1>
+    <p class="sous">Décider quoi partager, vérifier ou refuser de partager, et protéger sa vie privée en ligne.</p>
+    <div class="meta-grid">
+      <div class="meta"><b>Objectif</b>Se poser la question AVANT de remplir</div>
+      <div class="meta"><b>Livrable</b>Matrice personnelle « Je peux / Je vérifie / Je ne partage pas »</div>
+      <div class="meta"><b>Format</b>Équipes + confrontation</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Question flash</h2>
+    <div class="quote">« Qui a déjà rempli un formulaire en ligne en se demandant pourquoi on lui réclamait
+    sa date de naissance ? »</div>
+    <p>Aujourd'hui, on apprend à se poser la question <b>AVANT</b> de remplir. La question-clé pour tout ce qui
+    n'est pas évident : <b>QUI demande, POURQUOI, et est-ce NÉCESSAIRE ?</b></p>
+  </section>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">🗂️</span><b>Exercice — le tri des données</b>
+      <span class="compteur" id="compteur">0 / 16</span></div>
+    <div class="exo-corps">
+      <p>Pour chaque donnée, choisissez sa zone en équipe — puis comparez avec le classement indicatif de l'agence.</p>
+      <div class="grid2" style="margin-bottom:18px">
+        <div class="mini-carte" style="border-left:4px solid var(--ok)"><b style="color:var(--ok)">VERT</b> — je peux partager.</div>
+        <div class="mini-carte" style="border-left:4px solid var(--warn)"><b style="color:var(--warn)">ORANGE</b> — je vérifie qui demande et pourquoi.</div>
+        <div class="mini-carte" style="border-left:4px solid var(--bad)"><b style="color:var(--bad)">ROUGE</b> — je ne partage pas (ou jamais).</div>
+      </div>
+      <div class="memo">Il n'y a pas une seule bonne réponse partout — c'est voulu : le débat d'équipe fait l'apprentissage.
+      Quand deux zones se discutent, les deux sont acceptées.</div>
+      <div id="tri"></div>
+      <div id="bilanTri"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Les points fermes</h2>
+    <div class="grid2">
+      <div class="mini-carte" style="border-left:4px solid var(--bad)"><b>Mot de passe &amp; code SMS :</b> toujours ROUGE.
+        Aucune organisation légitime ne les demande — jamais.</div>
+      <div class="mini-carte" style="border-left:4px solid var(--bad)"><b>Registre national &amp; copie de carte d'identité :</b>
+        uniquement à une administration ou un employeur formellement identifié — jamais par mail à un inconnu.</div>
+      <div class="mini-carte" style="border-left:4px solid var(--warn)"><b>Localisation en temps réel &amp; photos d'enfants :</b>
+        réflexion systématique. Ce n'est pas seulement VOTRE donnée.</div>
+      <div class="mini-carte" style="border-left:4px solid var(--warn)"><b>Pour tout l'orange :</b>
+        QUI demande, POURQUOI, et est-ce NÉCESSAIRE ?</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cas pratique — le CV en ligne</h2>
+    <div class="card">
+      <div class="grid2">
+        <div>
+          <h3 style="margin-top:0">✅ À garder</h3>
+          <ul>
+            <li>Prénom</li>
+            <li>Parcours et compétences</li>
+            <li>Un mail de contact dédié</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="margin-top:0">❌ À retirer</h3>
+          <ul>
+            <li>Adresse complète (la commune suffit)</li>
+            <li>Date de naissance complète</li>
+            <li>Numéro de registre national</li>
+            <li>Photo de la carte d'identité</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Vos droits en deux mots</h2>
+    <div class="card">
+      <p>RGPD ultra-simplifié : vous avez le droit de <b>savoir</b> ce qu'une organisation détient sur vous,
+      de le faire <b>corriger</b>, et souvent de le faire <b>effacer</b>.</p>
+      <div class="cle" style="margin-bottom:0"><b>À retenir :</b> vos données ont de la valeur —
+      c'est précisément pour ça qu'on essaie de vous les prendre.</div>
+    </div>
+  </section>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">📋</span><b>Livrable — ma matrice personnelle</b></div>
+    <div class="exo-corps">
+      <p>Reportez 3 données par colonne — celles qui <b>VOUS</b> concernent le plus.</p>
+      <label for="mVert" style="color:var(--ok)">🟢 Je peux partager</label>
+      <textarea id="mVert" placeholder="Ex. : mon prénom, mon parcours, ma photo de profil choisie…"></textarea>
+      <label for="mOrange" style="color:var(--warn)">🟠 Je vérifie qui demande et pourquoi</label>
+      <textarea id="mOrange" placeholder="Ex. : mon numéro de GSM, mon adresse, mon IBAN…"></textarea>
+      <label for="mRouge" style="color:var(--bad)">🔴 Je ne partage pas</label>
+      <textarea id="mRouge" placeholder="Ex. : mon mot de passe, un code SMS, ma carte d'identité…"></textarea>
+      <div class="actions">
+        <button class="btn" id="finEtape">✓ J'ai terminé cette étape</button>
+      </div>
+      <div id="finMsg"></div>
+    </div>
+  </section>
+</main>
+
+<nav class="pager">
+  <a href="etape3.html"><span class="dir">← Étape précédente</span><span class="titre" style="display:block">Repérer les messages piégés</span></a>
+  <a class="suivant" href="etape5.html"><span class="dir">Étape suivante →</span><span class="titre" style="display:block">Réagir en cas d'incident</span></a>
+</nav>
+<footer class="colophon">Atelier Cyber-réflexes · Aucune donnée n'est enregistrée ni envoyée.</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+// zones : tableau des zones acceptées ; la première est la zone « de référence »
+var CARTES=[
+ {pic:'🙂', nom:'Mon prénom', zones:['vert'],
+  note:'Donnée publique par nature.'},
+ {pic:'🖼️', nom:'Ma photo de profil', zones:['vert','orange'],
+  note:'Choisie et maîtrisée : ok. Attention à ce qu\'elle révèle (lieu, enfants).'},
+ {pic:'📄', nom:'Mon CV (parcours, mail de contact)', zones:['vert','orange'],
+  note:'Fait pour être diffusé — mais nettoyé (voir le cas pratique CV plus bas).'},
+ {pic:'📞', nom:'Mon numéro de GSM', zones:['orange'],
+  note:'À qui ? Un recruteur identifié oui, un formulaire douteux non.'},
+ {pic:'🏠', nom:'Mon adresse complète', zones:['orange'],
+  note:'Nécessaire pour une administration ou une livraison ; inutile sur un CV public ou un réseau social.'},
+ {pic:'🎂', nom:'Ma date de naissance complète', zones:['orange'],
+  note:'Sert à usurper l\'identité. L\'année seule suffit presque toujours.'},
+ {pic:'📍', nom:'Ma localisation en temps réel', zones:['orange','rouge'],
+  note:'Réservée aux proches choisis. Jamais en public.'},
+ {pic:'👶', nom:'Une photo de mes enfants / proches', zones:['orange','rouge'],
+  note:'Ce n\'est pas seulement MA donnée — c\'est aussi la leur.'},
+ {pic:'🏦', nom:'Mon IBAN', zones:['orange'],
+  note:'Légitime pour un employeur ou une administration identifiés ; jamais par mail à un inconnu.'},
+ {pic:'🪪', nom:'Mon numéro de registre national', zones:['rouge'],
+  note:'La clé de l\'identité belge. Uniquement en face-à-face administratif ou canal sécurisé officiel (administration / employeur formel).'},
+ {pic:'📇', nom:'Une copie de ma carte d\'identité', zones:['rouge'],
+  note:'Permet d\'ouvrir des crédits à votre nom. Jamais en pièce jointe à un inconnu.'},
+ {pic:'🗳️', nom:'Mon opinion politique / religieuse', zones:['orange','rouge'],
+  note:'Donnée dite sensible : sa diffusion vous suit longtemps.'},
+ {pic:'🔑', nom:'Mon mot de passe', zones:['rouge'],
+  note:'Ne se partage avec personne. Aucune organisation légitime ne le demande. ROUGE — toujours.'},
+ {pic:'💬', nom:'Un code reçu par SMS', zones:['rouge'],
+  note:'Le transmettre, c\'est ouvrir soi-même la porte. ROUGE — toujours.'},
+ {pic:'🚶', nom:'Mes habitudes (horaires, trajets) en public', zones:['orange'],
+  note:'Indique quand vous n\'êtes pas chez vous.'},
+ {pic:'✈️', nom:'Ma photo de vacances (en direct)', zones:['orange'],
+  note:'Publiée pendant le séjour, elle annonce que la maison est vide. Après le retour : moins risqué.'}
+];
+var ZLIB={vert:'VERT · je partage', orange:'ORANGE · je vérifie', rouge:'ROUGE · jamais'};
+var ZTAG={vert:'ok', orange:'verif', rouge:'alerte'};
+var faites=0, accord=0;
+var tri=document.getElementById('tri');
+
+CARTES.forEach(function(c,i){
+  var d=document.createElement('div'); d.className='donnee';
+  d.innerHTML='<div class="intitule"><span class="pic">'+c.pic+'</span>'+c.nom+'</div>'+
+    '<div class="zones">'+
+    '<button class="zbtn z-vert" data-i="'+i+'" data-z="vert">Vert</button>'+
+    '<button class="zbtn z-orange" data-i="'+i+'" data-z="orange">Orange</button>'+
+    '<button class="zbtn z-rouge" data-i="'+i+'" data-z="rouge">Rouge</button></div>'+
+    '<div class="correction" id="cor-'+i+'"></div>';
+  tri.appendChild(d);
+});
+
+tri.addEventListener('click',function(e){
+  var b=e.target.closest('.zbtn'); if(!b||b.disabled) return;
+  var i=parseInt(b.dataset.i,10), z=b.dataset.z, c=CARTES[i];
+  var zone=b.parentElement;
+  zone.querySelectorAll('.zbtn').forEach(function(x){
+    x.disabled=true;
+    if(x===b) x.classList.add('choisi');
+    if(c.zones.indexOf(x.dataset.z)>-1) x.classList.add('attendu');
+  });
+  var ok=c.zones.indexOf(z)>-1;
+  faites++; if(ok) accord++;
+  var libZones=c.zones.map(function(zz){return ZLIB[zz];}).join(' ou ');
+  var cor=document.getElementById('cor-'+i);
+  cor.innerHTML='<div class="resultat '+ZTAG[c.zones[0]]+'">'+
+    '<span class="tag '+ZTAG[c.zones[0]]+'">'+libZones+'</span>'+
+    '<p style="margin-bottom:0">'+(ok?'✓ Même lecture que l\'agence. ':'L\'agence classe cette donnée autrement. ')+c.note+'</p></div>';
+  cor.classList.add('actif');
+  document.getElementById('progres').textContent=faites+' / '+CARTES.length+' triées';
+  document.getElementById('compteur').textContent=faites+' / '+CARTES.length;
+  if(faites===CARTES.length){
+    document.getElementById('bilanTri').innerHTML=
+      '<div class="resultat ok" style="margin-top:8px"><span class="tag ok">Tri terminé</span>'+
+      '<p style="margin-bottom:0">Concordance avec l\'agence : '+accord+' / '+CARTES.length+'. '+
+      'Les écarts sur l\'orange sont normaux — c\'est justement là que la question « qui, pourquoi, nécessaire ? » se pose.</p></div>';
+  }
+});
+
+document.getElementById('finEtape').addEventListener('click',function(){
+  CR.marquer('etape4');
+  document.getElementById('finMsg').innerHTML=
+    '<div class="resultat ok"><span class="tag ok">Étape validée</span>'+
+    '<p style="margin-bottom:0">Reportez votre matrice sur la feuille papier — elle part avec vous. Prochaine étape : réagir quand ça arrive quand même.</p></div>';
+});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Étape 3 · Repérer les messages piégés — Cyber-réflexes</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.msg{background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); margin-bottom:20px; overflow:hidden}
+.msg-tete{display:flex; gap:12px; padding:16px 18px 10px; align-items:flex-start}
+.pastille{width:44px; height:44px; border-radius:12px; flex:none; display:flex; align-items:center; justify-content:center; font-size:22px; color:#fff}
+.p-mail{background:var(--blue)}.p-sms{background:var(--mauve)}.p-wa{background:#3BA55D}
+.exp{font-weight:700}
+.exp small{display:block; font-weight:400; color:var(--muted); font-size:13.5px}
+.corps{padding:0 18px 14px; white-space:pre-line}
+.lien{display:inline-block; margin-top:6px; color:var(--blue); text-decoration:underline; font-weight:600}
+.examiner{margin:0 18px 14px; display:inline-flex; align-items:center; gap:8px;
+  border:2px dashed var(--border); background:var(--grey-soft); border-radius:12px;
+  padding:10px 14px; font-size:14.5px; cursor:pointer; min-height:46px}
+.examiner:hover{border-color:var(--mauve)}
+.destination{display:none; margin:0 18px 14px; padding:11px 14px; background:var(--warn-soft); border-radius:10px; font-size:14.5px}
+.destination.actif{display:block}
+.verdicts{display:flex; gap:10px; padding:0 18px 18px; flex-wrap:wrap}
+.vbtn{flex:1; min-width:110px; min-height:52px; border-radius:12px; border:2px solid; background:var(--card);
+  font-weight:800; font-size:15px; letter-spacing:.04em; cursor:pointer; text-transform:uppercase}
+.vb-ok{color:var(--ok); border-color:var(--ok)}
+.vb-verif{color:var(--warn); border-color:var(--warn)}
+.vb-alerte{color:var(--bad); border-color:var(--bad)}
+.vbtn.choisi{color:#fff}
+.vb-ok.choisi{background:var(--ok)}.vb-verif.choisi{background:var(--warn)}.vb-alerte.choisi{background:var(--bad)}
+.vbtn:disabled{opacity:.4}
+.vbtn.choisi:disabled,.vbtn.attendu:disabled{opacity:1}
+.vbtn.attendu:not(.choisi){box-shadow:inset 0 0 0 2px currentColor}
+.reponse{display:none; border-top:2px dashed var(--border); padding:14px 18px 18px}
+.reponse.actif{display:block}
+#final{display:none}
+#final.actif{display:block}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="logo">🛡</span>Cyber-réflexes</a>
+  <span class="etape-tag">Étape 3 · 11:35–12:30</span>
+  <span class="spacer"></span>
+  <span class="progres mono" id="progres">0 / 10 analysés</span>
+</header>
+
+<main>
+  <div class="hero-etape">
+    <div class="surtitre">Étape 3 · DigComp 4.2</div>
+    <h1>Repérer les messages piégés</h1>
+    <p class="sous">Repérer le phishing et installer le réflexe de vérification avant de cliquer.</p>
+    <div class="meta-grid">
+      <div class="meta"><b>Objectif</b>Le réflexe des 4 questions avant de cliquer</div>
+      <div class="meta"><b>Livrable</b>Fiche « Avant de cliquer, je vérifie »</div>
+      <div class="meta"><b>Format</b>Équipes + correction collective</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>La mission</h2>
+    <div class="quote">« On a rassemblé la boîte de réception d'un citoyen. Dix messages : des vrais, des pièges,
+    et des douteux. Votre travail : classer chaque message — FIABLE, PIÈGE, ou JE VÉRIFIE — et surtout dire POURQUOI.
+    Les indices sont dans les détails. »</div>
+    <div class="memo"><b>Astuce :</b> le bouton « 🔍 Examiner le lien » reproduit l'appui long du doigt sur un vrai téléphone :
+    il montre où le lien mène <b>vraiment</b>, sans l'ouvrir. Faites-en un réflexe.</div>
+  </section>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">📥</span><b>Exercice — la boîte de réception piégée</b>
+      <span class="compteur" id="compteur">0 / 10</span></div>
+    <div class="exo-corps">
+      <div id="liste"></div>
+
+      <div id="final" class="card" style="border:2px solid var(--mauve)">
+        <h2>Débrief de mission</h2>
+        <p style="font-weight:700" id="scoreFinal"></p>
+        <p>Le score ne compte pas : ce qui compte, c'est le réflexe. Avant de cliquer, les 4 questions :</p>
+        <ol>
+          <li>Est-ce <b>inattendu</b> ?</li>
+          <li>Est-ce <b>urgent ou menaçant</b> ?</li>
+          <li>Me demande-t-on des <b>données, de l'argent, un code</b> ?</li>
+          <li>Le lien mène-t-il <b>vraiment au bon site</b> ? (appui long pour vérifier)</li>
+        </ol>
+        <p><b>Deux réponses inquiétantes → on ne clique pas :</b> on passe par le canal officiel
+        (taper soi-même l'adresse, appeler le vrai numéro).</p>
+        <div class="memo" style="margin-bottom:0"><b>Le bon réflexe :</b> transférer le message suspect à
+        <span class="mono">suspect@safeonweb.be</span> (capture d'écran pour un SMS), puis le supprimer.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Focus emploi — les fausses offres</h2>
+    <div class="card">
+      <p>Spécifiquement pour la recherche d'emploi, les signaux d'alarme :</p>
+      <ul>
+        <li>salaire irréaliste pour le poste ;</li>
+        <li>embauche <b>sans entretien</b> ;</li>
+        <li>demande de copie de carte d'identité ou d'IBAN <b>avant tout contrat</b> ;</li>
+        <li>frais à avancer.</li>
+      </ul>
+      <div class="cle" style="margin-bottom:0"><b>Une vraie entreprise</b> ne demande jamais d'argent ni de
+      documents d'identité avant un engagement formel.</div>
+    </div>
+  </section>
+</main>
+
+<nav class="pager">
+  <a href="etape2.html"><span class="dir">← Étape précédente</span><span class="titre" style="display:block">Protéger ses accès</span></a>
+  <a class="suivant" href="etape4.html"><span class="dir">Étape suivante →</span><span class="titre" style="display:block">Maîtriser ses données</span></a>
+</nav>
+<footer class="colophon">Atelier Cyber-réflexes · Messages fictifs inspirés de campagnes réelles signalées en Belgique. Aucun lien n'est actif.</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+var MESSAGES=[
+ {type:'sms', exp:'bpost', meta:'SMS · numéro court 8850',
+  corps:'Votre colis BE-4471002 est retenu à notre dépôt. Des frais de douane de 1,99 € sont dus. Réglez sous 48 h pour éviter le renvoi :',
+  lien:'bpost-colis-24.info/paiement', dest:'bpost-colis-24.info — ce n\'est PAS bpost.be. Domaine inconnu, créé pour l\'arnaque.',
+  verdict:'alerte',
+  explication:'Micro-paiement surprise + lien hors du site officiel : la technique classique pour voler les données de carte. bpost prévient via son app ou un avis papier, jamais par SMS avec paiement.'},
+ {type:'mail', exp:'Proximus — Facturation', meta:'facturation@proximus-clients.net · Objet : Votre facture est disponible — action requise',
+  corps:'Cher client,\nVotre dernière facture n\'a pas pu être prélevée. Mettez à jour vos coordonnées de paiement pour éviter une interruption de service :',
+  lien:'proximus-clients.net/moncompte', dest:'proximus-clients.net — le vrai domaine est proximus.be. « -clients.net » est un maquillage.',
+  verdict:'alerte',
+  explication:'Domaine maquillé : il contient le nom de la marque mais n\'est pas le site officiel. L\'urgence (« interruption de service ») pousse à cliquer sans réfléchir.'},
+ {type:'sms', exp:'Belfius Info', meta:'SMS · numéro inconnu',
+  corps:'Sécurité : votre carte sera bloquée dans 24 h. Confirmez vos données immédiatement :',
+  lien:'belfius-secure.info/verification', dest:'belfius-secure.info — pas belfius.be. Les banques n\'envoient jamais ce genre de lien.',
+  verdict:'alerte',
+  explication:'Urgence + menace + demande de données : le trio complet du phishing bancaire. Une banque ne demande jamais de « confirmer ses données » par lien. Au moindre doute : appeler sa banque au numéro officiel.'},
+ {type:'mail', exp:'Le Forem', meta:'noreply@forem.be · Objet : Convocation — rendez-vous avec votre conseiller',
+  corps:'Bonjour,\nVotre conseiller vous invite le mardi 14 juillet à 9 h 30 au centre de Charleroi, dossier n° 2026-18734.\nEn cas d\'empêchement, contactez votre conseiller via votre espace personnel ou au 0800 93 947.\nAucune pièce jointe, aucun paiement demandé.',
+  lien:null, dest:null,
+  verdict:'ok',
+  explication:'Domaine officiel (@forem.be), contenu attendu quand on est inscrit, références précises, aucune demande d\'argent ni de données. En cas de doute : appeler son conseiller — vérifier ne coûte rien.'},
+ {type:'wa', exp:'Numéro inconnu (+32 4xx xx xx xx)', meta:'WhatsApp',
+  corps:'Coucou maman c\'est moi 😢 j\'ai cassé mon GSM, voici mon nouveau numéro. Tu peux me faire un virement urgent de 250 € ? Je t\'expliquerai ce soir, là je ne peux pas appeler.',
+  lien:null, dest:null,
+  verdict:'alerte',
+  explication:'L\'arnaque « au proche » : nouveau numéro + urgence + impossible d\'appeler. Le réflexe : appeler l\'ANCIEN numéro (ou un autre proche) pour vérifier. Jamais de virement sur simple message.'},
+ {type:'mail', exp:'RH Recrutement International', meta:'jobs.europe.rh@gmail.com · Objet : Félicitations — poste à pourvoir immédiatement',
+  corps:'Votre profil a été sélectionné ! Poste en télétravail, 3 500 €/mois, aucune expérience requise.\nPour finaliser votre engagement, renvoyez : copie de votre carte d\'identité (recto-verso) et votre numéro de compte IBAN.',
+  lien:null, dest:null,
+  verdict:'alerte',
+  explication:'Trop beau pour être vrai + documents d\'identité demandés AVANT tout entretien ou contrat : c\'est du vol d\'identité. Une vraie entreprise n\'embauche pas sans entretien et ne demande jamais la carte d\'identité par mail à ce stade. Adresse gmail pour un « service RH » : signal de plus.'},
+ {type:'mail', exp:'Magasin Delmart', meta:'newsletter@delmart.be · Objet : Les promos de la semaine',
+  corps:'Cette semaine : -30 % sur le rayon épicerie. Découvrez le folder en ligne.\nVous recevez ce mail car vous êtes inscrit à la newsletter. Se désabonner à tout moment.',
+  lien:'delmart.be/folder', dest:'delmart.be — le domaine habituel de l\'enseigne, celui de tous ses précédents mails.',
+  verdict:'ok',
+  explication:'Expéditeur connu et attendu, aucune demande de données ni d\'argent, lien cohérent avec le domaine habituel. Indésirable ? On se désabonne — pas besoin d\'en avoir peur.'},
+ {type:'sms', exp:'CSAM', meta:'SMS · numéro inconnu',
+  corps:'CSAM : vérifiez votre identité sous 48 h, sans quoi vos accès aux services publics seront suspendus :',
+  lien:'csam-verification.be-secure.net', dest:'be-secure.net — rien à voir avec csam.be. Campagne de phishing réelle signalée par Safeonweb.',
+  verdict:'alerte',
+  explication:'Les services publics ne demandent pas de vérification d\'identité par lien SMS. Le réflexe : taper soi-même csam.be dans le navigateur. Cette campagne a fait des milliers de signalements en Belgique.'},
+ {type:'mail', exp:'ONEM — Service paiements', meta:'paiements-onem@secure-mail.eu · Objet : Régularisation de votre allocation',
+  corps:'Pour recevoir le paiement de votre allocation ce mois-ci, veuillez nous renvoyer par retour de mail votre numéro de compte IBAN ainsi qu\'une photo de votre carte bancaire (recto).',
+  lien:null, dest:null,
+  verdict:'alerte',
+  explication:'Une administration ne demande JAMAIS l\'IBAN — encore moins une photo de carte — par retour de mail. Tout passe par les canaux officiels (e-Box, guichet, espace personnel). Et le domaine n\'est pas onem.be.'},
+ {type:'sms', exp:'58123', meta:'SMS · expéditeur automatique',
+  corps:'Votre code de vérification est 482 913. Ne le partagez avec personne.\n(Vous n\'avez pourtant rien demandé…)',
+  lien:null, dest:null,
+  verdict:'verif',
+  explication:'Un code reçu sans l\'avoir demandé = quelqu\'un essaie peut-être de se connecter à votre compte en ce moment. On ne transmet JAMAIS ce code à qui que ce soit — et on change le mot de passe du compte concerné.'}
+];
+
+var VLIB={ok:'FIABLE', verif:'JE VÉRIFIE', alerte:'PIÈGE'};
+var faits=0, concordes=0;
+var liste=document.getElementById('liste');
+
+MESSAGES.forEach(function(m, i){
+  var art=document.createElement('article'); art.className='msg';
+  var ic = m.type==='mail'?'✉️': m.type==='wa'?'💬':'📱';
+  var pcls = m.type==='mail'?'p-mail': m.type==='wa'?'p-wa':'p-sms';
+  var h='<div class="msg-tete"><div class="pastille '+pcls+'">'+ic+'</div>'+
+    '<div class="exp">'+m.exp+'<small>'+m.meta+'</small></div></div>'+
+    '<div class="corps">'+m.corps+(m.lien?'\n<span class="lien">'+m.lien+'</span>':'')+'</div>';
+  if(m.lien){
+    h+='<button class="examiner" data-i="'+i+'">🔍 Examiner le lien (appui long simulé)</button>'+
+       '<div class="destination" id="dest-'+i+'"><b>Destination réelle :</b> '+m.dest+'</div>';
+  }
+  h+='<div class="verdicts">'+
+     '<button class="vbtn vb-ok" data-i="'+i+'" data-v="ok">Fiable</button>'+
+     '<button class="vbtn vb-verif" data-i="'+i+'" data-v="verif">Je vérifie</button>'+
+     '<button class="vbtn vb-alerte" data-i="'+i+'" data-v="alerte">Piège</button></div>'+
+     '<div class="reponse" id="rep-'+i+'"></div>';
+  art.innerHTML=h;
+  liste.appendChild(art);
+});
+
+liste.addEventListener('click',function(e){
+  var b=e.target.closest('button'); if(!b) return;
+  var i=parseInt(b.dataset.i,10);
+  if(b.classList.contains('examiner')){
+    document.getElementById('dest-'+i).classList.add('actif');
+    return;
+  }
+  if(b.classList.contains('vbtn') && !b.disabled){
+    var m=MESSAGES[i];
+    var choix=b.dataset.v;
+    var art=b.closest('.msg');
+    art.querySelectorAll('.vbtn').forEach(function(x){
+      x.disabled=true;
+      if(x===b) x.classList.add('choisi');
+      if(x.dataset.v===m.verdict) x.classList.add('attendu');
+    });
+    var juste=(choix===m.verdict);
+    faits++; if(juste) concordes++;
+    var rep=document.getElementById('rep-'+i);
+    rep.innerHTML='<span class="tag '+m.verdict+'">'+VLIB[m.verdict]+'</span>'+
+      '<p style="font-weight:700; margin:10px 0 6px">'+(juste?'✓ Même analyse que l\'agence.':'L\'agence classe ce message autrement — voici pourquoi :')+'</p>'+
+      '<p style="margin:0">'+m.explication+'</p>';
+    rep.classList.add('actif');
+    document.getElementById('progres').textContent=faits+' / '+MESSAGES.length+' analysés';
+    document.getElementById('compteur').textContent=faits+' / '+MESSAGES.length;
+    if(faits===MESSAGES.length){
+      CR.marquer('etape3');
+      document.getElementById('scoreFinal').textContent='Concordance avec l\'agence : '+concordes+' / '+MESSAGES.length+'.';
+      var f=document.getElementById('final');
+      f.classList.add('actif');
+      f.scrollIntoView({behavior:'smooth'});
+    }
+  }
+});
+})();
+</script>
+</body>
+</html>

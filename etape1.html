@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Étape 1 · Verrouiller son appareil — Cyber-réflexes</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+/* Téléphone d'entraînement */
+.phone{width:280px; margin:18px auto; background:#2B2940; border-radius:30px; padding:16px 12px 22px; box-shadow:0 10px 30px rgba(43,41,64,.3)}
+.screen{background:#F6F6FA; border-radius:18px; padding:18px 12px; text-align:center}
+.dots{display:flex; justify-content:center; gap:12px; margin:8px 0 16px; min-height:16px}
+.dots span{width:14px; height:14px; border-radius:50%; border:2px solid #8A87A5}
+.dots span.plein{background:#2B2940; border-color:#2B2940}
+.pad{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+.pad button{font-size:22px; padding:13px 0; border-radius:12px; border:1px solid #DBDAE6; background:#fff; cursor:pointer; min-height:52px}
+.pad button:active{background:var(--mauve-soft)}
+.motif{display:grid; grid-template-columns:repeat(3,70px); gap:20px; justify-content:center; margin:18px auto}
+.motif button{width:70px; height:70px; border-radius:50%; border:3px solid #B9B7CC; background:#fff; cursor:pointer; font-size:18px; font-weight:700; color:transparent}
+.motif button.pris{border-color:var(--mauve); background:var(--mauve-soft); color:var(--mauve-dark)}
+.choix-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px}
+.choice{background:var(--card); border:2px solid var(--border); border-radius:14px; padding:14px 10px;
+  font-size:15.5px; font-weight:600; cursor:pointer; min-height:76px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; text-align:center}
+.choice .ic{font-size:25px}
+.choice[aria-pressed="true"]{border-color:var(--mauve); background:var(--mauve-soft); color:var(--mauve-dark)}
+.panel{display:none; margin-top:18px; border-top:2px dashed var(--border); padding-top:18px}
+.panel.actif{display:block}
+.check-liste{list-style:none; padding:0; margin:0}
+.check-liste li{display:flex; align-items:flex-start; gap:12px; padding:11px 0; border-bottom:1px solid var(--border); margin:0}
+.check-liste li:last-child{border-bottom:none}
+.check-liste input{width:22px; height:22px; margin-top:2px; accent-color:var(--mauve); flex:none; cursor:pointer}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="logo">🛡</span>Cyber-réflexes</a>
+  <span class="etape-tag">Étape 1 · 09:30–10:20</span>
+</header>
+
+<main>
+  <div class="hero-etape">
+    <div class="surtitre">Étape 1 · DigComp 4.1</div>
+    <h1>Verrouiller son appareil</h1>
+    <p class="sous">Identifier et appliquer les protections de base d'un appareil : verrouillage, code solide, mises à jour.</p>
+    <div class="meta-grid">
+      <div class="meta"><b>Objectif</b>Un verrou solide sur chaque appareil</div>
+      <div class="meta"><b>Livrable</b>Checklist « Mon appareil est protégé »</div>
+      <div class="meta"><b>Format</b>Équipes + mise en commun</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Le téléphone trouvé sur un banc</h2>
+    <div class="quote">« Vous trouvez un smartphone sur un banc, sans code de verrouillage.
+      Qu'est-ce qu'une personne mal intentionnée peut faire avec, en dix minutes ? »</div>
+    <p>Réfléchissez en équipe avant d'ouvrir la réponse.</p>
+    <div class="card">
+      <details>
+        <summary style="cursor:pointer; font-weight:700; color:var(--mauve-dark)">Voir ce qui est possible en 10 minutes</summary>
+        <ul style="margin-top:12px">
+          <li>Lire les mails et SMS — donc <b>recevoir les codes de la banque</b> ;</li>
+          <li>accéder à toutes les photos ;</li>
+          <li>cliquer sur « mot de passe oublié » et prendre les comptes un par un (la réinitialisation passe par le mail ou le SMS !) ;</li>
+          <li>écrire aux proches en se faisant passer pour la personne ;</li>
+          <li>payer sans contact avec le téléphone.</li>
+        </ul>
+      </details>
+    </div>
+    <div class="cle"><b>À retenir :</b> le téléphone est la clé de toute notre vie numérique — le verrouiller n'est pas un détail, c'est la porte d'entrée.</div>
+  </section>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">🧪</span><b>Exercice — fabriquer un bon verrou</b></div>
+    <div class="exo-corps">
+      <p>Testez les différentes protections sur ce téléphone d'entraînement. Pour chacune, vous verrez
+      sa solidité et les pièges classiques. <b>N'utilisez jamais votre vrai code</b> — inventez.</p>
+
+      <h3>Choisissez une protection à tester</h3>
+      <div class="choix-grid" id="choix">
+        <button class="choice" data-mode="aucun" aria-pressed="false"><span class="ic">🚫</span>Aucune</button>
+        <button class="choice" data-mode="motif" aria-pressed="false"><span class="ic">◱</span>Schéma</button>
+        <button class="choice" data-mode="code4" aria-pressed="false"><span class="ic">🔢</span>Code 4 chiffres</button>
+        <button class="choice" data-mode="code6" aria-pressed="false"><span class="ic">🔢</span>Code 6 chiffres</button>
+        <button class="choice" data-mode="bio" aria-pressed="false"><span class="ic">👆</span>Empreinte / visage</button>
+      </div>
+
+      <div class="panel" id="p-aucun">
+        <h3>Sans verrou</h3>
+        <p>Le téléphone est ouvert au premier venu : mails, banque, proches, paiement sans contact.</p>
+        <div class="resultat alerte"><span class="tag alerte">Protection nulle</span>
+          <p style="margin-bottom:0">Tout ce que vous avez listé dans « le téléphone trouvé » devient possible, tout de suite.</p></div>
+      </div>
+
+      <div class="panel" id="p-motif">
+        <h3>Schéma de déverrouillage</h3>
+        <p>Touchez au moins 4 points dans l'ordre de votre schéma, puis testez.</p>
+        <div class="motif" id="motifGrid" aria-label="Grille de schéma 3 par 3"></div>
+        <div class="actions" style="justify-content:center">
+          <button class="btn ghost" id="motifReset">Recommencer</button>
+          <button class="btn" id="motifOk">Tester ce schéma</button>
+        </div>
+        <div id="v-motif"></div>
+      </div>
+
+      <div class="panel" id="p-code">
+        <h3 id="codeTitre">Code à 4 chiffres</h3>
+        <p>Composez un code d'entraînement (pas votre vrai code !), puis testez.</p>
+        <div class="phone"><div class="screen">
+          <div class="mono" style="font-size:13px;color:#6F6C86">Téléphone d'entraînement</div>
+          <div class="dots" id="codeDots"></div>
+          <div class="pad" id="pad"></div>
+        </div></div>
+        <div class="actions" style="justify-content:center">
+          <button class="btn ghost" id="codeReset">Effacer</button>
+          <button class="btn" id="codeOk">Tester ce code</button>
+        </div>
+        <div id="v-code"></div>
+      </div>
+
+      <div class="panel" id="p-bio">
+        <h3>Empreinte ou visage</h3>
+        <p>Posez le doigt (façon capteur) :</p>
+        <div class="actions" style="justify-content:center">
+          <button class="btn bleu" id="bioBtn" style="min-width:220px">👆 Poser le doigt</button>
+        </div>
+        <div id="v-bio"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>La hiérarchie des verrous</h2>
+    <div class="grid2">
+      <div class="mini-carte"><b>🥇 Empreinte / visage</b><br>Pratique et sûr au quotidien. Le code de secours doit être bon lui aussi — c'est lui la vraie porte.</div>
+      <div class="mini-carte"><b>🥈 Code 6 chiffres sans logique</b><br>1 000 000 de combinaisons. Le meilleur rapport effort / protection.</div>
+      <div class="mini-carte"><b>🥉 Code 4 chiffres sans logique</b><br>Correct, mais 6 chiffres font 100 fois mieux pour le même effort de mémoire.</div>
+      <div class="mini-carte"><b>⚠️ À éviter</b><br>1234, 0000, date de naissance, schéma en L ou en Z — testés en premier par les curieux comme par les fraudeurs.</div>
+    </div>
+    <div class="memo"><b>Le réglage qui va avec :</b> verrouillage automatique réglé sur 30 secondes à 1 minute.
+      Un bon verrou qui met 10 minutes à se fermer ne protège pas grand-chose.</div>
+  </section>
+
+  <section>
+    <h2>Les mises à jour — pourquoi on les fait</h2>
+    <div class="card">
+      <p>Une mise à jour, c'est <b>le serrurier qui vient réparer une serrure dont les cambrioleurs
+      connaissent déjà le défaut</b>. Retarder, c'est laisser la faille ouverte.</p>
+      <p>Sur les tablettes de la salle, un écran indique « Cet iPad est supervisé et géré par Le Forem » :
+      ici, un service informatique s'en occupe. À la maison, <b>le service informatique, c'est vous</b>.
+      En entreprise, votre futur employeur aura peut-être le même dispositif sur le matériel professionnel.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Et sur votre appareil ?</h2>
+    <div class="card">
+      <p>Chacun, sur son propre téléphone, <b>en privé</b> — personne ne montre son écran, on lève juste le pouce quand c'est vérifié :</p>
+      <ol>
+        <li>Un verrouillage est-il actif ?</li>
+        <li>Quel est le délai de verrouillage automatique ?</li>
+        <li>Une mise à jour est-elle en attente ?</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="exo">
+    <div class="exo-tete"><span class="pic">📋</span><b>Livrable — Checklist « Mon appareil est protégé »</b></div>
+    <div class="exo-corps">
+      <p>Cochez ce qui est <b>déjà en place</b> chez vous, puis choisissez <b>UNE action à faire ce soir</b>.</p>
+      <ul class="check-liste" id="checklist">
+        <li><input type="checkbox" id="c1"><label for="c1" style="margin:0">Mon téléphone se verrouille tout seul (30 secondes à 1 minute).</label></li>
+        <li><input type="checkbox" id="c2"><label for="c2" style="margin:0">Mon code n'est ni 1234, ni 0000, ni ma date de naissance.</label></li>
+        <li><input type="checkbox" id="c3"><label for="c3" style="margin:0">J'utilise l'empreinte ou le visage pour déverrouiller (si mon appareil le permet).</label></li>
+        <li><input type="checkbox" id="c4"><label for="c4" style="margin:0">Mes mises à jour sont faites (ou programmées la nuit).</label></li>
+        <li><input type="checkbox" id="c5"><label for="c5" style="margin:0">Je n'installe des applications que depuis le magasin officiel (Play Store / App Store).</label></li>
+        <li><input type="checkbox" id="c6"><label for="c6" style="margin:0">Je sais qui gère mon appareil : moi — et personne d'autre n'y a accès sans mon accord.</label></li>
+      </ul>
+      <label for="actionSoir">Mon action de ce soir</label>
+      <textarea id="actionSoir" placeholder="Ex. : passer mon code à 6 chiffres et régler le verrouillage automatique sur 30 secondes."></textarea>
+      <div class="actions">
+        <button class="btn" id="finEtape">✓ J'ai terminé cette étape</button>
+      </div>
+      <div id="finMsg"></div>
+    </div>
+  </section>
+</main>
+
+<nav class="pager">
+  <a href="index.html"><span class="dir">← Accueil</span><span class="titre" style="display:block">Programme de la journée</span></a>
+  <a class="suivant" href="bestiaire.html"><span class="dir">Étape suivante →</span><span class="titre" style="display:block">Bestiaire des menaces</span></a>
+</nav>
+<footer class="colophon">Atelier Cyber-réflexes · Aucune donnée n'est enregistrée ni envoyée.</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+  var boutons=document.querySelectorAll('.choice');
+  var codeLen=4, codeVal='', motifSeq=[];
+  function montre(m){
+    boutons.forEach(function(b){b.setAttribute('aria-pressed', b.dataset.mode===m ? 'true':'false');});
+    document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('actif');});
+    var id=(m==='code4'||m==='code6')?'p-code':'p-'+m;
+    var p=document.getElementById(id);
+    if(p){p.classList.add('actif'); p.scrollIntoView({behavior:'smooth',block:'start'});}
+    if(m==='code4'||m==='code6'){
+      codeLen=(m==='code6')?6:4;
+      document.getElementById('codeTitre').textContent='Code à '+codeLen+' chiffres';
+      codeVal=''; majDots(); vide('v-code');
+    }
+    if(m==='motif'){motifSeq=[]; majMotif(); vide('v-motif');}
+    if(m==='bio'){vide('v-bio');}
+  }
+  boutons.forEach(function(b){b.addEventListener('click',function(){montre(b.dataset.mode);});});
+  function vide(id){document.getElementById(id).innerHTML='';}
+
+  function verdict(id,niveau,titre,points,memo){
+    var html='<div class="resultat '+niveau+'"><span class="tag '+niveau+'">'+titre+'</span><ul>';
+    points.forEach(function(pt){html+='<li>'+pt+'</li>';});
+    html+='</ul>'+(memo?'<div class="memo" style="margin-bottom:0"><b>Conseil :</b> '+memo+'</div>':'')+'</div>';
+    var v=document.getElementById(id);
+    v.innerHTML=html;
+    v.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  var pad=document.getElementById('pad');
+  ['1','2','3','4','5','6','7','8','9','','0','⌫'].forEach(function(t){
+    var b=document.createElement('button');
+    b.textContent=t; if(t===''){b.disabled=true; b.style.visibility='hidden';}
+    b.addEventListener('click',function(){
+      if(t==='⌫'){codeVal=codeVal.slice(0,-1);}
+      else if(codeVal.length<codeLen){codeVal+=t;}
+      majDots();
+    });
+    pad.appendChild(b);
+  });
+  function majDots(){
+    var d=document.getElementById('codeDots'); d.innerHTML='';
+    for(var i=0;i<codeLen;i++){
+      var s=document.createElement('span');
+      if(i<codeVal.length){s.className='plein';}
+      d.appendChild(s);
+    }
+  }
+  document.getElementById('codeReset').addEventListener('click',function(){codeVal=''; majDots(); vide('v-code');});
+  document.getElementById('codeOk').addEventListener('click',function(){
+    if(codeVal.length<codeLen){
+      verdict('v-code','verif','Incomplet',['Composez les '+codeLen+' chiffres avant de tester.']);
+      return;
+    }
+    analyseCode(codeVal);
+  });
+
+  function analyseCode(c){
+    var pieges=[];
+    var suites='0123456789', suitesInv='9876543210';
+    if(suites.indexOf(c)>-1 || suitesInv.indexOf(c)>-1){pieges.push('Une suite (comme '+c+') fait partie des tout premiers codes essayés.');}
+    if(/^(\d)\1+$/.test(c)){pieges.push('Un chiffre répété ('+c+') est deviné immédiatement.');}
+    if(c.length===4){
+      var n=parseInt(c,10);
+      if(n>=1940 && n<=2015){pieges.push('On dirait une année de naissance — c\'est la première chose qu\'un proche ou un fraudeur essaie.');}
+      var mm=parseInt(c.slice(0,2),10), jj=parseInt(c.slice(2),10);
+      if(mm>=1&&mm<=31&&jj>=1&&jj<=12 && !(n>=1940&&n<=2015)){pieges.push('On dirait une date (jour/mois) — facile à deviner pour qui vous connaît.');}
+    }
+    if(c==='2580'||c==='0852'){pieges.push('2580, c\'est la colonne du clavier — dans le top des codes connus.');}
+    if(c.length===6){
+      var a=parseInt(c.slice(0,4),10), a2=parseInt(c.slice(2),10);
+      if((a>=1940&&a<=2015)||(a2>=1940&&a2<=2015)){pieges.push('Ce code contient ce qui ressemble à une année de naissance.');}
+    }
+    if(pieges.length){
+      verdict('v-code','alerte','Devinable',
+        pieges.concat(['Les fraudeurs (et les proches curieux) essaient d\'abord les codes évidents : suites, répétitions, dates.']),
+        'Choisissez '+codeLen+' chiffres sans logique — pas de date, pas de suite.');
+    } else if(c.length===4){
+      verdict('v-code','verif','Correct',
+        ['Rien d\'évident : bien.',
+         '10 000 combinaisons possibles — ça décourage un curieux, mais 6 chiffres font 100 fois mieux pour le même effort de mémoire.'],
+        'Passez à 6 chiffres si votre téléphone le propose : c\'est le meilleur rapport effort/protection.');
+    } else {
+      verdict('v-code','ok','Solide',
+        ['6 chiffres sans logique : 1 000 000 de combinaisons.',
+         'Avec le verrouillage automatique et les pauses imposées par le téléphone après quelques erreurs, c\'est un très bon verrou du quotidien.'],
+        'Gardez ce code pour vous — il ne se prête pas, il ne se crie pas dans le bus.');
+    }
+  }
+
+  var grid=document.getElementById('motifGrid');
+  for(var i=1;i<=9;i++){
+    (function(n){
+      var b=document.createElement('button');
+      b.textContent=n; b.setAttribute('aria-label','Point '+n);
+      b.addEventListener('click',function(){
+        if(motifSeq.indexOf(n)===-1){motifSeq.push(n); majMotif();}
+      });
+      grid.appendChild(b);
+    })(i);
+  }
+  function majMotif(){
+    var bs=grid.querySelectorAll('button');
+    bs.forEach(function(b,idx){
+      var n=idx+1, pos=motifSeq.indexOf(n);
+      if(pos>-1){b.classList.add('pris'); b.textContent=pos+1;}
+      else{b.classList.remove('pris'); b.textContent=n;}
+    });
+  }
+  document.getElementById('motifReset').addEventListener('click',function(){motifSeq=[]; majMotif(); vide('v-motif');});
+  document.getElementById('motifOk').addEventListener('click',function(){
+    var connus={'1236':'un L inversé','1478':'un L','1235':'une diagonale simple','1596':'un Z',
+                '12369':'un grand L','14789':'un grand L','1256':'un carré partiel','32147':'un S'};
+    var cle=motifSeq.join('');
+    if(motifSeq.length<4){
+      verdict('v-motif','alerte','Trop court',
+        ['Moins de 4 points : quelques dizaines de possibilités seulement.',
+         'Et un schéma court se lit par-dessus l\'épaule en une seconde.']);
+      return;
+    }
+    var lignes=['123','456','789','147','258','369','159','357'];
+    var estLigne = motifSeq.length<=5 && lignes.some(function(l){return cle.indexOf(l)===0||cle.split('').reverse().join('').indexOf(l)===0;});
+    if(connus[cle] || estLigne){
+      verdict('v-motif','alerte','Devinable',
+        ['Ce tracé ressemble à '+(connus[cle]||'une ligne droite')+' : les formes en L, Z et lignes sont les premières testées.',
+         'Autre faiblesse du schéma : la trace de doigt reste visible sur l\'écran.'],
+        'Si vous aimez le schéma : 6 points minimum, avec des croisements — ou passez au code 6 chiffres.');
+    } else if(motifSeq.length>=6){
+      verdict('v-motif','verif','Correct',
+        ['Tracé long et sans forme évidente : mieux que la moyenne.',
+         'Le schéma reste toutefois lisible par-dessus l\'épaule et laisse des traces sur l\'écran.'],
+        'Le code à 6 chiffres ou la biométrie restent plus sûrs au quotidien.');
+    } else {
+      verdict('v-motif','verif','Moyen',
+        ['Pas de forme évidente, mais un tracé de '+motifSeq.length+' points reste vite observé et reproduit.'],
+        'Allongez à 6 points minimum — ou préférez un code 6 chiffres.');
+    }
+  });
+
+  document.getElementById('bioBtn').addEventListener('click',function(){
+    verdict('v-bio','ok','Solide et pratique',
+      ['Votre empreinte ou votre visage ne se devine pas, ne s\'observe pas par-dessus l\'épaule, et ne s\'oublie pas.',
+       'C\'est aussi le plus rapide au quotidien — donc on ne triche pas en désactivant le verrou.',
+       'Point clé : le téléphone garde toujours un code de secours. Ce code doit être bon lui aussi — c\'est lui la vraie porte.'],
+      'Biométrie au quotidien + code de secours à 6 chiffres sans logique.');
+  });
+
+  document.getElementById('finEtape').addEventListener('click',function(){
+    CR.marquer('etape1');
+    document.getElementById('finMsg').innerHTML=
+      '<div class="resultat ok" ><span class="tag ok">Étape validée</span>'+
+      '<p style="margin-bottom:0">Bien joué. Reportez votre action de ce soir sur votre checklist papier — elle part avec vous.</p></div>';
+  });
+})();
+</script>
+</body>
+</html>

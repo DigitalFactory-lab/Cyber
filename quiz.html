@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz éclair — Cyber-réflexes</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.question{background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:18px 20px; margin-bottom:16px}
+.question .enonce{font-weight:700; font-size:16.5px; margin-bottom:12px}
+.reponses{display:grid; gap:10px}
+.rbtn{display:flex; align-items:center; gap:12px; text-align:left;
+  background:var(--card); border:2px solid var(--border); border-radius:12px;
+  padding:12px 15px; font-size:15.5px; cursor:pointer; min-height:52px}
+.rbtn:hover{border-color:var(--mauve)}
+.rbtn .lettre{width:30px; height:30px; border-radius:50%; flex:none;
+  background:var(--mauve-soft); color:var(--mauve-dark); font-weight:800;
+  display:flex; align-items:center; justify-content:center; font-size:14px}
+.rbtn.bon{border-color:var(--ok); background:var(--ok-soft)}
+.rbtn.bon .lettre{background:var(--ok); color:#fff}
+.rbtn.faux{border-color:var(--bad); background:var(--bad-soft)}
+.rbtn.faux .lettre{background:var(--bad); color:#fff}
+.rbtn:disabled{opacity:.55; cursor:default}
+.rbtn.bon:disabled,.rbtn.faux:disabled{opacity:1}
+.explic{display:none; margin-top:10px}
+.explic.actif{display:block}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="logo">🛡</span>Cyber-réflexes</a>
+  <span class="etape-tag">Quiz éclair</span>
+  <span class="spacer"></span>
+  <span class="progres mono" id="progres">0 / 10</span>
+</header>
+
+<main>
+  <div class="hero-etape">
+    <div class="surtitre">Bonus · à tout moment de la journée</div>
+    <h1>Quiz éclair</h1>
+    <p class="sous">10 questions pour se chauffer, réviser après la pause… ou départager les experts.
+    Une réponse humoristique par question — elle ne rapporte rien, mais elle détend.</p>
+  </div>
+
+  <section class="exo" style="margin-top:28px">
+    <div class="exo-tete"><span class="pic">⚡</span><b>Les 10 questions</b><span class="compteur" id="compteur">0 / 10</span></div>
+    <div class="exo-corps">
+      <div id="quiz"></div>
+      <div id="bilan"></div>
+    </div>
+  </section>
+</main>
+
+<nav class="pager">
+  <a href="index.html"><span class="dir">← Accueil</span><span class="titre" style="display:block">Programme de la journée</span></a>
+  <a class="suivant" href="cloture.html"><span class="dir">Vers la fin de journée →</span><span class="titre" style="display:block">Clôture — faire le point</span></a>
+</nav>
+<footer class="colophon">Atelier Cyber-réflexes · Aucune donnée n'est enregistrée ni envoyée.</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+var QS=[
+ {q:'Le mot de passe le plus utilisé au monde est…',
+  r:['123456','motdepasse','LeNomDeMonChat'], bon:0,
+  e:'123456 — et les pirates le savent : leurs logiciels le testent en premier.'},
+ {q:'Le plus sûr, c\'est…',
+  r:['X7#p!','ChevalVioletMangeFrites','Le cri de mon coq à 5 h'], bon:1,
+  e:'La longueur bat la complexité : 4 mots sans lien tiennent des siècles.'},
+ {q:'Un SMS de la banque demande de confirmer mes données via un lien :',
+  r:['Je clique vite','Je tape moi-même le site de ma banque','Je réponds « non merci bisous »'], bon:1,
+  e:'Toujours le canal officiel : on tape soi-même l\'adresse, on appelle le vrai numéro.'},
+ {q:'Une mise à jour, c\'est surtout…',
+  r:['Des nouvelles couleurs','Des réparations de failles de sécurité','Un complot pour vider ma batterie'], bon:1,
+  e:'Le serrurier qui répare la serrure dont les cambrioleurs connaissent déjà le défaut.'},
+ {q:'Je reçois un code par SMS sans rien avoir demandé :',
+  r:['Je l\'ignore et je change mon mot de passe','Je le donne si on me le demande gentiment','Je le tatoue'], bon:0,
+  e:'Quelqu\'un tente peut-être d\'entrer dans votre compte en ce moment même.'},
+ {q:'On me demande une copie de ma carte d\'identité pour « finaliser » une offre d\'emploi par mail :',
+  r:['C\'est normal','Alerte : jamais avant un engagement formel et identifié','J\'envoie aussi mon carnet de vaccination'], bon:1,
+  e:'Une vraie entreprise n\'embauche pas sans entretien et ne demande pas de documents d\'identité à ce stade.'},
+ {q:'Le Wi-Fi gratuit du café, c\'est bien pour…',
+  r:['Consulter ma banque','Lire les actus','Télécharger le registre national'], bon:1,
+  e:'Jamais d\'opération sensible sur un réseau ouvert.'},
+ {q:'Mes fichiers sont bloqués, on réclame 500 € :',
+  r:['Je paie discrètement','Je ne paie pas, je déconnecte, je demande de l\'aide et je porte plainte','Je négocie à 450 €'], bon:1,
+  e:'Payer ne garantit rien et finance la suite. On déconnecte, on se fait aider, on signale.'},
+ {q:'J\'ai donné mes données bancaires sur un faux site : mon premier appel est pour…',
+  r:['Card Stop 078 170 170','Ma cousine qui s\'y connaît','La radio'], bon:0,
+  e:'Card Stop d\'abord — puis la banque, puis le signalement.'},
+ {q:'Les messages suspects se transfèrent à…',
+  r:['Tous mes contacts pour les prévenir','suspect@safeonweb.be','Mon horoscope'], bon:1,
+  e:'suspect@safeonweb.be (capture d\'écran pour un SMS) — puis on supprime.'}
+];
+var faits=0, justes=0;
+var wrap=document.getElementById('quiz');
+var LETTRES=['a','b','c'];
+
+QS.forEach(function(x,i){
+  var d=document.createElement('div'); d.className='question';
+  var h='<div class="enonce">'+(i+1)+'. '+x.q+'</div><div class="reponses" data-i="'+i+'">';
+  x.r.forEach(function(rep,j){
+    h+='<button class="rbtn" data-j="'+j+'"><span class="lettre">'+LETTRES[j]+'</span><span>'+rep+'</span></button>';
+  });
+  h+='</div><div class="explic" id="ex-'+i+'"></div>';
+  d.innerHTML=h;
+  wrap.appendChild(d);
+});
+
+wrap.addEventListener('click',function(e){
+  var b=e.target.closest('.rbtn'); if(!b||b.disabled) return;
+  var zone=b.parentElement;
+  var i=parseInt(zone.dataset.i,10), j=parseInt(b.dataset.j,10);
+  var x=QS[i];
+  zone.querySelectorAll('.rbtn').forEach(function(btn,idx){
+    btn.disabled=true;
+    if(idx===x.bon) btn.classList.add('bon');
+    else if(btn===b) btn.classList.add('faux');
+  });
+  var juste=(j===x.bon);
+  faits++; if(juste) justes++;
+  var ex=document.getElementById('ex-'+i);
+  ex.innerHTML='<div class="resultat '+(juste?'ok':'verif')+'">'+
+    '<span class="tag '+(juste?'ok':'verif')+'">'+(juste?'Exact':'Presque')+'</span>'+
+    '<p style="margin-bottom:0">'+x.e+'</p></div>';
+  ex.classList.add('actif');
+  document.getElementById('progres').textContent=faits+' / '+QS.length;
+  document.getElementById('compteur').textContent=faits+' / '+QS.length;
+  if(faits===QS.length){
+    CR.marquer('quiz');
+    document.getElementById('bilan').innerHTML=
+      '<div class="resultat ok" style="margin-top:8px"><span class="tag ok">Quiz terminé</span>'+
+      '<p style="margin-bottom:0">Score : '+justes+' / '+QS.length+'. Le score ne compte pas — le réflexe, si.</p></div>';
+  }
+});
+})();
+</script>
+</body>
+</html>
