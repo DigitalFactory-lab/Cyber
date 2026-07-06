@@ -77,6 +77,24 @@ a{color:var(--blue)}
 .hero-etape{
   background:var(--wash); border:1px solid var(--border); border-radius:var(--radius);
   padding:32px 30px; margin-top:6px;
+  display:grid; grid-template-columns:1.15fr .85fr; gap:30px; align-items:center;
+}
+.hero-etape .he-copy{min-width:0}
+.he-media{
+  position:relative; margin:0; aspect-ratio:3/2; border-radius:12px; overflow:hidden;
+  background:var(--card); border:1px solid var(--border);
+}
+.he-media .ph{
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:8px; text-align:center; padding:18px; color:var(--muted);
+}
+.he-media .ph svg{color:#B7B4CC}
+.he-media .ph b{font-size:14px; font-weight:600; color:#8B889F}
+.he-media .ph small{font-size:12px; color:#A6A3B8}
+.he-media img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block}
+@media (max-width:820px){
+  .hero-etape{grid-template-columns:1fr; gap:22px; padding:26px 22px}
+  .he-media{aspect-ratio:16/9}
 }
 .hero-etape .surtitre{
   font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
