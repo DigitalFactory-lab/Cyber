@@ -122,7 +122,7 @@ section.bloc{padding:var(--space-section) 0}
 /* Programme */
 .prog{margin-top:var(--space-group); border-top:1px solid var(--line)}
 .prog a, .prog .row{
-  display:grid; grid-template-columns:96px 1fr auto; gap:24px; align-items:center;
+  display:grid; grid-template-columns:112px 1fr auto; gap:24px; align-items:center;
   padding:22px 8px; border-bottom:1px solid var(--line); color:var(--ink);
 }
 .prog a:hover{background:var(--wash)}
@@ -133,8 +133,11 @@ section.bloc{padding:var(--space-section) 0}
 .prog a:hover .go{opacity:1}
 .prog a.fait .go{opacity:1; color:#1a8f5a; font-weight:700}
 .prog .row{color:var(--muted)}
+.prog .row.pause .t{font-weight:500; font-size:15px; color:var(--muted)}
+.prog .row .go{display:none}
 @media (max-width:680px){
-  .prog a, .prog .row{grid-template-columns:70px 1fr; gap:14px}
+  .prog a, .prog .row{grid-template-columns:92px 1fr; gap:14px}
+  .prog .h{font-size:13px}
   .prog .go{display:none}
 }
 
@@ -285,55 +288,23 @@ footer.site .wrap{display:flex; justify-content:space-between; gap:16px; flex-wr
   <div class="wrap">
     <p class="kicker">Le déroulé</p>
     <h2>Une journée rythmée, en équipes.</h2>
-    <p class="intro">Neuf séquences courtes, alternant mise en situation, exercice sur console
-      et mise en commun. Chaque étape est accessible directement en ligne.</p>
+    <p class="intro">Le déroulé complet de la journée, de 8h30 à 16h — pauses comprises.
+      Chaque activité affiche sa plage horaire ; les séquences interactives s'ouvrent d'un clic.</p>
 
     <div class="prog">
-      <a href="etape1.html" data-cle="etape1">
-        <span class="h">09:00</span>
-        <span class="t">Verrouiller son appareil<small>Code, biométrie, mises à jour · simulateur de verrou</small></span>
-        <span class="go">Ouvrir →</span>
-      </a>
-      <a href="bestiaire.html" data-cle="bestiaire">
-        <span class="h">09:50</span>
-        <span class="t">Bestiaire des menaces<small>Virus, ransomware, phishing… reconnaître les familles</small></span>
-        <span class="go">Ouvrir →</span>
-      </a>
-      <a href="etape2.html" data-cle="etape2">
-        <span class="h">10:10</span>
-        <span class="t">Protéger ses accès<small>Testeur de robustesse de mots de passe, hors ligne</small></span>
-        <span class="go">Ouvrir →</span>
-      </a>
-      <a href="etape3.html" data-cle="etape3">
-        <span class="h">11:05</span>
-        <span class="t">Repérer les messages piégés<small>Boîte de réception piégée : 10 messages à trier</small></span>
-        <span class="go">Ouvrir →</span>
-      </a>
-      <a href="etape4.html" data-cle="etape4">
-        <span class="h">12:30</span>
-        <span class="t">Maîtriser ses données<small>Tri vert / orange / rouge de 16 données</small></span>
-        <span class="go">Ouvrir →</span>
-      </a>
-      <a href="etape5.html" data-cle="etape5">
-        <span class="h">13:20</span>
-        <span class="t">Réagir en cas d'incident<small>Procédure à ordonner + 5 scénarios</small></span>
-        <span class="go">Ouvrir →</span>
-      </a>
-      <a href="nadia.html" data-cle="nadia">
-        <span class="h">14:25</span>
-        <span class="t">Cas pratique — le journal de Nadia<small>Tout mobiliser sur une situation complète</small></span>
-        <span class="go">Ouvrir →</span>
-      </a>
-      <a href="cloture.html" data-cle="cloture">
-        <span class="h">15:20</span>
-        <span class="t">Clôture — faire le point<small>Carnet de bord et réflexe prioritaire</small></span>
-        <span class="go">Ouvrir →</span>
-      </a>
-      <a href="quiz.html" data-cle="quiz">
-        <span class="h">bonus</span>
-        <span class="t">Quiz éclair<small>10 questions pour se chauffer ou réviser</small></span>
-        <span class="go">Ouvrir →</span>
-      </a>
+      <div class="row"><span class="h">08:30–09:00</span><span class="t">Étape 0 — Prendre ses marques<small>Accueil · badges · équipes · baromètre de confiance</small></span><span class="go"></span></div>
+      <a href="etape1.html" data-cle="etape1"><span class="h">09:00–09:50</span><span class="t">Étape 1 — Verrouiller son appareil<small>Code, biométrie, mises à jour · simulateur de verrou</small></span><span class="go">Ouvrir →</span></a>
+      <a href="bestiaire.html" data-cle="bestiaire"><span class="h">09:50–10:10</span><span class="t">Étape 1 bis — Bestiaire des menaces<small>Virus, ransomware, phishing… reconnaître les familles</small></span><span class="go">Ouvrir →</span></a>
+      <a href="etape2.html" data-cle="etape2"><span class="h">10:10–10:50</span><span class="t">Étape 2 — Protéger ses accès<small>Testeur de robustesse de mots de passe, hors ligne</small></span><span class="go">Ouvrir →</span></a>
+      <div class="row pause"><span class="h">10:50–11:05</span><span class="t">Pause</span><span class="go"></span></div>
+      <a href="etape3.html" data-cle="etape3"><span class="h">11:05–12:00</span><span class="t">Étape 3 — Repérer les messages piégés<small>Boîte de réception piégée : 10 messages à trier</small></span><span class="go">Ouvrir →</span></a>
+      <div class="row pause"><span class="h">12:00–12:30</span><span class="t">Pause midi</span><span class="go"></span></div>
+      <a href="etape4.html" data-cle="etape4"><span class="h">12:30–13:20</span><span class="t">Étape 4 — Maîtriser ses données<small>Tri vert / orange / rouge de 16 données</small></span><span class="go">Ouvrir →</span></a>
+      <a href="etape5.html" data-cle="etape5"><span class="h">13:20–14:10</span><span class="t">Étape 5 — Réagir en cas d'incident<small>Procédure à ordonner + 5 scénarios</small></span><span class="go">Ouvrir →</span></a>
+      <div class="row pause"><span class="h">14:10–14:25</span><span class="t">Pause</span><span class="go"></span></div>
+      <a href="nadia.html" data-cle="nadia"><span class="h">14:25–15:20</span><span class="t">Cas pratique — le journal de Nadia<small>Tout mobiliser sur une situation complète</small></span><span class="go">Ouvrir →</span></a>
+      <a href="cloture.html" data-cle="cloture"><span class="h">15:20–16:00</span><span class="t">Clôture — faire le point<small>Carnet de bord et réflexe prioritaire</small></span><span class="go">Ouvrir →</span></a>
+      <a href="quiz.html" data-cle="quiz"><span class="h">bonus</span><span class="t">Quiz éclair<small>10 questions pour se chauffer ou réviser</small></span><span class="go">Ouvrir →</span></a>
     </div>
   </div>
 </section>
