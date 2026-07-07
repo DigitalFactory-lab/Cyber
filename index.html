@@ -132,6 +132,10 @@ section.bloc{padding:var(--space-section) 0}
 .prog .go{color:var(--mauve); font-size:14px; font-weight:600; opacity:0; transition:opacity .18s}
 .prog a:hover .go{opacity:1}
 .prog a.fait .go{opacity:1; color:#1a8f5a; font-weight:700}
+.prog-reset{display:flex; align-items:center; justify-content:flex-end; gap:14px; margin-top:22px; font-size:14px; color:var(--muted)}
+.prog-reset button{background:transparent; border:1.5px solid var(--line); color:var(--ink); font-weight:600; font-size:14px; padding:9px 16px; border-radius:var(--r-md); cursor:pointer}
+.prog-reset button:hover{border-color:var(--muted)}
+@media (max-width:680px){ .prog-reset{flex-direction:column; align-items:flex-start; gap:8px} }
 .prog .row{color:var(--muted)}
 .prog .row.pause .t{font-weight:500; font-size:15px; color:var(--muted)}
 .prog .row .go{display:none}
@@ -306,6 +310,10 @@ footer.site .wrap{display:flex; justify-content:space-between; gap:16px; flex-wr
       <a href="cloture.html" data-cle="cloture"><span class="h">15:20–16:00</span><span class="t">Clôture — faire le point<small>Carnet de bord et réflexe prioritaire</small></span><span class="go">Ouvrir →</span></a>
       <a href="quiz.html" data-cle="quiz"><span class="h">bonus</span><span class="t">Quiz éclair<small>10 questions pour se chauffer ou réviser</small></span><span class="go">Ouvrir →</span></a>
     </div>
+    <div class="prog-reset" id="progReset" hidden>
+      <span>Suivi en cours sur cette tablette.</span>
+      <button type="button" id="resetProg">Réinitialiser pour une nouvelle équipe</button>
+    </div>
   </div>
 </section>
 
@@ -364,10 +372,21 @@ footer.site .wrap{display:flex; justify-content:space-between; gap:16px; flex-wr
 <script src="assets/site.js"></script>
 <script>
 (function(){
+  var n=0;
   document.querySelectorAll('.prog a[data-cle]').forEach(function(a){
     if(typeof CR!=='undefined' && CR.estFait(a.dataset.cle)){
       a.classList.add('fait');
       var g=a.querySelector('.go'); if(g) g.textContent='\u2713 Termin\u00e9';
+      n++;
+    }
+  });
+  var panel=document.getElementById('progReset');
+  var btn=document.getElementById('resetProg');
+  if(n>0 && panel) panel.hidden=false;
+  if(btn) btn.addEventListener('click', function(){
+    if(confirm('Effacer la progression de la journ\u00e9e sur cette tablette et repartir de z\u00e9ro ?')){
+      CR.reinitialiser();
+      location.reload();
     }
   });
 })();
