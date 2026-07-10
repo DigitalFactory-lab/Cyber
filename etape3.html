@@ -15,6 +15,11 @@
 .exp small{display:block; font-weight:400; color:var(--muted); font-size:13.5px}
 .corps{padding:0 18px 14px; white-space:pre-line}
 .msg-shot{display:block; width:100%; max-width:100%; border-radius:10px; border:1px solid var(--border); margin:4px 0 2px}
+.attente{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; background:var(--wash); border-radius:10px; padding:11px 14px}
+.attente span{color:var(--muted); font-size:14.5px; font-weight:600}
+.btn-reveal{background:var(--mauve); color:#fff; border:none; border-radius:10px; padding:10px 16px; font-weight:700; font-size:14px; cursor:pointer; flex:none}
+.btn-reveal:hover{background:var(--mauve-dark)}
+.btn-reveal:focus-visible{outline:3px solid var(--blue); outline-offset:2px}
 .lien{display:inline-block; margin-top:6px; color:var(--blue); text-decoration:underline; font-weight:600}
 .examiner{margin:0 18px 14px; display:inline-flex; align-items:center; gap:8px;
   border:2px dashed var(--border); background:var(--grey-soft); border-radius:12px;
@@ -192,7 +197,7 @@ var MESSAGES=[
 ];
 
 var VLIB={ok:'FIABLE', verif:'JE VÉRIFIE', alerte:'PIÈGE'};
-var faits=0, concordes=0;
+var faits=0, concordes=0, reveles=0;
 var liste=document.getElementById('liste');
 
 MESSAGES.forEach(function(m, i){
@@ -222,31 +227,45 @@ liste.addEventListener('click',function(e){
     document.getElementById('dest-'+i).classList.add('actif');
     return;
   }
+  // 1) L'équipe choisit : la réponse se verrouille, SANS correction — on en discute d'abord.
   if(b.classList.contains('vbtn') && !b.disabled){
     var m=MESSAGES[i];
-    var choix=b.dataset.v;
     var art=b.closest('.msg');
+    art.dataset.choix=b.dataset.v;
     art.querySelectorAll('.vbtn').forEach(function(x){
       x.disabled=true;
       if(x===b) x.classList.add('choisi');
+    });
+    faits++; if(b.dataset.v===m.verdict) concordes++;
+    var rep=document.getElementById('rep-'+i);
+    rep.innerHTML='<div class="attente"><span>Réponse enregistrée — on en discute en équipe…</span>'+
+      '<button class="btn-reveal" data-i="'+i+'">Révéler la correction</button></div>';
+    rep.classList.add('actif');
+    document.getElementById('progres').textContent=faits+' / '+MESSAGES.length+' analysés';
+    document.getElementById('compteur').textContent=faits+' / '+MESSAGES.length;
+    if(faits===MESSAGES.length) CR.marquer('etape3');
+    return;
+  }
+  // 2) On révèle la correction, après la discussion.
+  if(b.classList.contains('btn-reveal')){
+    var m=MESSAGES[i];
+    var art=b.closest('.msg');
+    art.querySelectorAll('.vbtn').forEach(function(x){
       if(x.dataset.v===m.verdict) x.classList.add('attendu');
     });
-    var juste=(choix===m.verdict);
-    faits++; if(juste) concordes++;
+    var juste=(art.dataset.choix===m.verdict);
     var rep=document.getElementById('rep-'+i);
     rep.innerHTML='<span class="tag '+m.verdict+'">'+VLIB[m.verdict]+'</span>'+
       '<p style="font-weight:700; margin:10px 0 6px">'+(juste?'✓ Analyse correcte.':'À revoir — voici pourquoi :')+'</p>'+
       '<p style="margin:0">'+m.explication+'</p>';
-    rep.classList.add('actif');
-    document.getElementById('progres').textContent=faits+' / '+MESSAGES.length+' analysés';
-    document.getElementById('compteur').textContent=faits+' / '+MESSAGES.length;
-    if(faits===MESSAGES.length){
-      CR.marquer('etape3');
+    reveles++;
+    if(reveles===MESSAGES.length){
       document.getElementById('scoreFinal').textContent='Analyses correctes : '+concordes+' / '+MESSAGES.length+'.';
       var f=document.getElementById('final');
       f.classList.add('actif');
       f.scrollIntoView({behavior:'smooth'});
     }
+    return;
   }
 });
 })();
