@@ -94,10 +94,11 @@ small{color:var(--muted)}
 .cover .id .champ{text-align:left}
 .cover .id .champ .k{font-weight:800; color:var(--mauve-dark); font-size:14px; margin-bottom:8px}
 .cover .id .champ .v{border-bottom:2px solid #C9C6DD; height:34px}
-.cover .df-logo{display:block; margin:46px auto 0; width:190px; height:auto}
-.cover .subsides-pdf{position:absolute; left:0; right:0; bottom:12mm; text-align:center}
-.cover .subsides-pdf .mention{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:9px; font-weight:600}
-.cover .subsides-pdf img{width:80%; max-width:440px; height:auto}
+.cover .df-top{position:absolute; top:15mm; left:0; right:0; text-align:center}
+.cover .df-top img{width:116px; height:auto}
+.cover .subsides-pdf{position:absolute; left:0; right:0; bottom:13mm; text-align:center}
+.cover .subsides-pdf .mention{font-size:9.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); margin-bottom:7px; font-weight:600}
+.cover .subsides-pdf img{width:54%; max-width:290px; height:auto}
 
 .engage{border:2px solid var(--mauve); background:var(--mauve-soft); border-radius:14px; padding:20px 22px}
 .engage .lignes .l{border-bottom-color:#C7BEE8}
@@ -127,6 +128,7 @@ small{color:var(--muted)}
 
   <!-- COUVERTURE -->
   <section class="page cover">
+    <div class="df-top"><img src="assets/logodf.png" alt="Digital Factory By forem"></div>
     <div>
       <div class="logo-row">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5 4.5 5.5v5.2c0 4.6 3.1 8.4 7.5 10 4.4-1.6 7.5-5.4 7.5-10V5.5L12 2.5Z" fill="#5B41B0"/><path d="m8.6 12 2.3 2.3 4.5-4.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -138,7 +140,6 @@ small{color:var(--muted)}
         <div class="champ"><div class="k">Prénom</div><div class="v"></div></div>
         <div class="champ"><div class="k">Date</div><div class="v"></div></div>
       </div>
-      <img class="df-logo" src="assets/logodf.png" alt="Digital Factory By forem">
     </div>
     <div class="subsides-pdf">
       <div class="mention">Avec le soutien de</div>
