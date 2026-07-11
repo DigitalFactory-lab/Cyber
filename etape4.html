@@ -67,7 +67,7 @@
     <div class="exo-tete"><span class="pic"><svg class="ei" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg></span><b>Exercice — le tri des données</b>
       <span class="compteur" id="compteur">0 / 16</span></div>
     <div class="exo-corps">
-      <p>Pour chaque donnée, choisissez sa zone en équipe — puis comparez avec le classement indicatif de l'agence.</p>
+      <p>Pour chaque donnée, choisissez sa zone en équipe — puis comparez avec le classement indicatif proposé.</p>
       <div class="grid2" style="margin-bottom:18px">
         <div class="mini-carte" style="border-left:4px solid var(--ok)"><b style="color:var(--ok)">VERT</b> — je peux partager.</div>
         <div class="mini-carte" style="border-left:4px solid var(--warn)"><b style="color:var(--warn)">ORANGE</b> — je vérifie qui demande et pourquoi.</div>
@@ -222,14 +222,14 @@ tri.addEventListener('click',function(e){
   var cor=document.getElementById('cor-'+i);
   cor.innerHTML='<div class="resultat '+ZTAG[c.zones[0]]+'">'+
     '<span class="tag '+ZTAG[c.zones[0]]+'">'+libZones+'</span>'+
-    '<p style="margin-bottom:0">'+(ok?'✓ Même lecture que l\'agence. ':'L\'agence classe cette donnée autrement. ')+c.note+'</p></div>';
+    '<p style="margin-bottom:0">'+(ok?'✓ Même lecture que le classement proposé. ':'Le classement proposé range cette donnée autrement. ')+c.note+'</p></div>';
   cor.classList.add('actif');
   document.getElementById('progres').textContent=faites+' / '+CARTES.length+' triées';
   document.getElementById('compteur').textContent=faites+' / '+CARTES.length;
   if(faites===CARTES.length){
     document.getElementById('bilanTri').innerHTML=
       '<div class="resultat ok" style="margin-top:8px"><span class="tag ok">Tri terminé</span>'+
-      '<p style="margin-bottom:0">Concordance avec l\'agence : '+accord+' / '+CARTES.length+'. '+
+      '<p style="margin-bottom:0">Concordance avec le classement proposé : '+accord+' / '+CARTES.length+'. '+
       'Les écarts sur l\'orange sont normaux — c\'est justement là que la question « qui, pourquoi, nécessaire ? » se pose.</p></div>';
   }
 });
