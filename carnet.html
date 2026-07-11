@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon carnet de bord — Cyber-réflexes</title>
+<style>
+:root{
+  --ink:#26243A; --muted:#6F6C86;
+  --mauve:#5B41B0; --mauve-dark:#4A3494; --mauve-soft:#EFEBF9;
+  --blue:#2C53AF; --blue-soft:#E7EDF9;
+  --ok:#238C60; --ok-soft:#E4F3EC;
+  --warn:#C27A0E; --warn-soft:#FBF0DC;
+  --bad:#CC3D55; --bad-soft:#FBE6EA;
+  --border:#E1E0EC; --wash:#F7F7FB;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:var(--ink); line-height:1.5; background:#E9E9F1; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+
+/* Barre d'action (écran uniquement) */
+.toolbar{position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--border);
+  padding:12px 18px; display:flex; gap:14px; align-items:center; flex-wrap:wrap}
+.toolbar .t{font-weight:700}
+.toolbar .h{color:var(--muted); font-size:14px; flex:1; min-width:180px}
+.btn-print{background:var(--mauve); color:#fff; border:none; border-radius:999px; padding:11px 20px;
+  font-size:15px; font-weight:700; cursor:pointer}
+.btn-print:hover{background:var(--mauve-dark)}
+
+/* Pages A4 */
+.doc{max-width:820px; margin:22px auto; padding:0 16px}
+.page{background:#fff; border-radius:6px; box-shadow:0 6px 24px rgba(38,36,58,.12);
+  padding:26mm 20mm; margin:0 auto 22px; min-height:277mm}
+.page:last-child{margin-bottom:40px}
+
+h1,h2,h3{line-height:1.2; margin:0}
+.sec-tete{display:flex; align-items:center; gap:14px; margin-bottom:20px;
+  padding-bottom:14px; border-bottom:2px solid var(--mauve-soft)}
+.sec-num{flex:none; width:44px; height:44px; border-radius:12px; color:#fff; font-weight:800; font-size:20px;
+  display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--mauve),var(--blue))}
+.sec-tete h2{font-size:23px}
+.sec-tete .sur{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--mauve); font-weight:700}
+
+h3{font-size:16px; margin:20px 0 8px; color:var(--mauve-dark)}
+p{margin:0 0 10px}
+ul,ol{margin:0 0 12px; padding-left:22px}
+li{margin-bottom:5px}
+small{color:var(--muted)}
+
+.bloc{background:var(--wash); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:14px}
+.cle{border-left:4px solid var(--mauve); background:var(--mauve-soft); border-radius:0 8px 8px 0; padding:12px 16px; margin:12px 0}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.carte{background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px 14px}
+.carte b{color:var(--ink)}
+.rappel{font-size:13.5px; color:var(--muted); font-style:italic}
+
+/* Puces de couleur (données) */
+.zdot{display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:6px; vertical-align:middle}
+.z-ok{background:var(--ok)} .z-warn{background:var(--warn)} .z-bad{background:var(--bad)}
+
+/* Bestiaire */
+.bete{display:flex; gap:12px; align-items:flex-start; padding:11px 0; border-bottom:1px solid var(--border)}
+.bete:last-child{border-bottom:none}
+.bete .ic{flex:none; width:40px; height:40px; border-radius:10px; background:var(--mauve-soft); color:var(--mauve-dark);
+  display:flex; align-items:center; justify-content:center}
+.bete .ic svg{width:22px; height:22px}
+.bete .nom{font-weight:800}
+
+/* Zones à remplir */
+.remplir{border:1.5px dashed var(--mauve); background:#FCFBFF; border-radius:10px; padding:13px 16px; margin:12px 0}
+.remplir .lab{font-weight:800; color:var(--mauve-dark); font-size:14px; margin-bottom:2px; display:flex; align-items:center; gap:7px}
+.remplir .lab::before{content:"✍"; font-size:15px}
+.remplir .hint{font-size:12.5px; color:var(--muted); margin-bottom:8px}
+.lignes{--h:30px}
+.lignes .l{border-bottom:1.5px solid #D9D7E8; height:var(--h)}
+.lignes .l:first-child{border-top:1.5px solid #D9D7E8}
+
+/* Checklist imprimable */
+.check{list-style:none; padding:0; margin:6px 0 0}
+.check li{display:flex; gap:11px; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--border); margin:0}
+.check li:last-child{border-bottom:none}
+.box{flex:none; width:19px; height:19px; border:2px solid var(--mauve); border-radius:5px; margin-top:2px}
+
+/* Couverture */
+.cover{display:flex; flex-direction:column; justify-content:center; text-align:center; min-height:277mm}
+.cover .logo-row{display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:30px}
+.cover .logo-row svg{width:46px; height:46px}
+.cover .marque{font-size:26px; font-weight:800; letter-spacing:-.01em}
+.cover h1{font-size:44px; letter-spacing:-.02em; margin:8px 0}
+.cover .accroche{font-size:18px; color:var(--muted); max-width:460px; margin:14px auto 0}
+.cover .id{margin-top:54px; display:grid; grid-template-columns:1fr 1fr; gap:26px; max-width:520px; margin-left:auto; margin-right:auto}
+.cover .id .champ{text-align:left}
+.cover .id .champ .k{font-weight:800; color:var(--mauve-dark); font-size:14px; margin-bottom:8px}
+.cover .id .champ .v{border-bottom:2px solid #C9C6DD; height:34px}
+.cover .pied{margin-top:56px; font-size:13.5px; color:var(--muted)}
+
+.engage{border:2px solid var(--mauve); background:var(--mauve-soft); border-radius:14px; padding:20px 22px}
+.engage .lignes .l{border-bottom-color:#C7BEE8}
+
+@media print{
+  body{background:#fff}
+  .toolbar{display:none}
+  .doc{max-width:none; margin:0; padding:0}
+  .page{box-shadow:none; border-radius:0; margin:0; padding:16mm 15mm; min-height:auto;
+    break-after:page; page-break-after:always}
+  .page:last-child{break-after:auto; page-break-after:auto}
+  .bloc,.carte,.remplir,.bete,.cle,.engage{break-inside:avoid; page-break-inside:avoid}
+  .sec-tete{break-after:avoid; page-break-after:avoid}
+  @page{size:A4; margin:0}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="t">Mon carnet de bord</span>
+  <span class="h">Format A4 · à imprimer en série puis distribuer. Les cadres pointillés se remplissent au stylo.</span>
+  <button class="btn-print" onclick="window.print()">Imprimer / Enregistrer en PDF</button>
+</div>
+
+<div class="doc">
+
+  <!-- COUVERTURE -->
+  <section class="page cover">
+    <div>
+      <div class="logo-row">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5 4.5 5.5v5.2c0 4.6 3.1 8.4 7.5 10 4.4-1.6 7.5-5.4 7.5-10V5.5L12 2.5Z" fill="#5B41B0"/><path d="m8.6 12 2.3 2.3 4.5-4.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="marque">Cyber-réflexes</span>
+      </div>
+      <h1>Mon carnet de bord</h1>
+      <p class="accroche">Ce carnet est à toi. Complète les cadres au fil de la journée : il repart avec toi, et tes réflexes avec lui.</p>
+      <div class="id">
+        <div class="champ"><div class="k">Prénom</div><div class="v"></div></div>
+        <div class="champ"><div class="k">Date</div><div class="v"></div></div>
+      </div>
+      <p class="pied">Atelier Cyber-réflexes · Le Forem — Digital Factory</p>
+    </div>
+  </section>
+
+  <!-- 1. VERROUILLER -->
+  <section class="page">
+    <div class="sec-tete"><span class="sec-num">1</span><div><div class="sur">Étape 1</div><h2>Verrouiller mon appareil</h2></div></div>
+
+    <p>Le téléphone est <b>la clé de toute la vie numérique</b> : mails, banque, proches, paiement. Le verrouiller n'est pas un détail.</p>
+
+    <h3>La hiérarchie des verrous</h3>
+    <div class="grid2">
+      <div class="carte"><b>Empreinte / visage</b><br><small>Pratique et sûr. Le code de secours doit être bon lui aussi — c'est lui la vraie porte.</small></div>
+      <div class="carte"><b>Code 6 chiffres sans logique</b><br><small>1 000 000 de combinaisons. Le meilleur rapport effort / protection.</small></div>
+      <div class="carte"><b>Code 4 chiffres sans logique</b><br><small>Correct, mais 6 chiffres font 100× mieux pour le même effort.</small></div>
+      <div class="carte"><b>À éviter</b><br><small>1234, 0000, date de naissance, schéma en L ou en Z.</small></div>
+    </div>
+    <div class="cle"><b>Les réglages qui vont avec :</b> verrouillage automatique sur 30 s à 1 min · mises à jour faites (une mise à jour, c'est le serrurier qui répare une faille que les cambrioleurs connaissent déjà).</div>
+
+    <ul class="check">
+      <li><span class="box"></span><span>Mon téléphone se verrouille tout seul (30 s à 1 min).</span></li>
+      <li><span class="box"></span><span>Mon code n'est ni 1234, ni 0000, ni ma date de naissance.</span></li>
+      <li><span class="box"></span><span>J'utilise l'empreinte ou le visage (si mon appareil le permet).</span></li>
+      <li><span class="box"></span><span>Mes mises à jour sont faites (ou programmées la nuit).</span></li>
+      <li><span class="box"></span><span>Je n'installe des applications que depuis le magasin officiel.</span></li>
+      <li><span class="box"></span><span>Je sais qui gère mon appareil : moi — et personne d'autre sans mon accord.</span></li>
+    </ul>
+
+    <div class="remplir">
+      <div class="lab">Mon action après l'atelier</div>
+      <div class="hint">Une seule chose, concrète, à faire en rentrant.</div>
+      <div class="lignes"><div class="l"></div><div class="l"></div></div>
+    </div>
+  </section>
+
+  <!-- 2. BESTIAIRE -->
+  <section class="page">
+    <div class="sec-tete"><span class="sec-num">2</span><div><div class="sur">Étape 1 bis</div><h2>Le bestiaire des menaces</h2></div></div>
+    <p>Six « bêtes » rôdent dans le monde numérique. Reconnaître la famille suffit à savoir quoi faire.</p>
+
+    <div class="bete"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 15a4 4 0 0 1 8 0"/><path d="M9 9h.01M15 9h.01"/></svg></span><div><span class="nom">Virus</span> — s'installe sans permission et se propage de fichier en fichier pour endommager l'appareil.</div></div>
+    <div class="bete"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h16v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M4 10 12 4l8 6"/><path d="M12 14v3"/></svg></span><div><span class="nom">Cheval de Troie</span> — se fait passer pour utile (jeu, logiciel gratuit) mais cache un intrus.</div></div>
+    <div class="bete"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.5"/></svg></span><div><span class="nom">Spyware (espion)</span> — observe en silence : ce que vous tapez, vos mots de passe, vos messages.</div></div>
+    <div class="bete"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><div><span class="nom">Ransomware (rançon)</span> — bloque vos fichiers ou l'appareil et exige un paiement pour les rendre.</div></div>
+    <div class="bete"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11a2 2 0 0 1 2-2h2l4-3v12l-4-3H5a2 2 0 0 1-2-2Z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg></span><div><span class="nom">Adware (pub)</span> — inonde l'appareil de publicités et le ralentit, souvent installé avec un logiciel gratuit.</div></div>
+    <div class="bete"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a4 4 0 0 1 8 0c0 3-4 4-4 8"/><path d="M12 8a4 4 0 0 1 8 0c0 2-2 3-3 4"/><path d="M8 20h.01"/></svg></span><div><span class="nom">Hameçonnage (phishing)</span> — pas un programme : une tromperie. Un faux message qui imite un organisme connu pour vous faire cliquer ou donner vos données.</div></div>
+
+    <div class="cle" style="margin-top:16px"><b>Le point commun :</b> presque toutes entrent parce qu'on leur a <b>ouvert la porte</b> — un clic, une pièce jointe, une installation. Le meilleur antivirus, c'est le réflexe de vérification.</div>
+  </section>
+
+  <!-- 3. ACCÈS -->
+  <section class="page">
+    <div class="sec-tete"><span class="sec-num">3</span><div><div class="sur">Étape 2</div><h2>Protéger mes accès</h2></div></div>
+
+    <h3>Fabriquer sa phrase de passe — la méthode des 4 mots</h3>
+    <ol>
+      <li>Choisir <b>quatre mots sans lien</b> (ex. : cheval · violet · mange · frites).</li>
+      <li>En faire une <b>image mentale absurde</b> pour la retenir.</li>
+      <li>Ne la dire à <b>personne</b> — personne de légitime ne demande votre mot de passe.</li>
+    </ol>
+    <p class="rappel">La <b>longueur</b> bat la complexité : quatre mots tiennent des siècles, un mot « compliqué » mais court tombe en quelques jours.</p>
+
+    <div class="cle"><b>Ma boîte mail = la clé du trousseau.</b> C'est elle qui permet de réinitialiser tous les autres comptes : elle mérite un mot de passe <b>unique et long</b>, à protéger en premier.</div>
+
+    <h3>La double authentification</h3>
+    <p>Le code de la banque par SMS, l'app <b>itsme</b>… : même si quelqu'un vole le mot de passe, il lui manque le téléphone.</p>
+    <div class="cle" style="border-color:var(--bad); background:var(--bad-soft)"><b>Règle d'or :</b> un code reçu par SMS <b>ne se partage JAMAIS</b>, avec personne — même « la banque » au téléphone. Elle ne le demande jamais.</div>
+
+    <h3>Mes 4 réflexes accès</h3>
+    <ul class="check">
+      <li><span class="box"></span><span>Ma boîte mail a un mot de passe <b>unique et long</b>.</span></li>
+      <li><span class="box"></span><span>J'utilise une <b>phrase de passe</b> (4 mots sans lien) plutôt qu'un mot compliqué.</span></li>
+      <li><span class="box"></span><span>J'active la <b>double authentification</b> sur mes comptes importants (banque, mail, itsme).</span></li>
+      <li><span class="box"></span><span>Un code reçu par SMS, je ne le partage <b>jamais</b>.</span></li>
+    </ul>
+
+    <div class="remplir">
+      <div class="lab">Mon prochain pas</div>
+      <div class="lignes"><div class="l"></div><div class="l"></div></div>
+    </div>
+  </section>
+
+  <!-- 4. MESSAGES PIÉGÉS -->
+  <section class="page">
+    <div class="sec-tete"><span class="sec-num">4</span><div><div class="sur">Étape 3</div><h2>Repérer les messages piégés</h2></div></div>
+
+    <h3>Avant de cliquer, je vérifie — les 4 questions</h3>
+    <ol>
+      <li>Est-ce <b>inattendu</b> ? (rien commandé, rien demandé, pas de contact récent)</li>
+      <li>Est-ce <b>urgent ou menaçant</b> ? (« sous 24 h », « compte bloqué », « dernière chance »)</li>
+      <li>Me demande-t-on des <b>données, de l'argent, un code</b> ?</li>
+      <li>Le <b>lien</b> mène-t-il vraiment au bon site ? (appui long pour le prévisualiser)</li>
+    </ol>
+    <div class="cle"><b>Au moindre doute sérieux : on ne clique pas.</b> On passe par le canal officiel (taper soi-même l'adresse, appeler le vrai numéro), et on signale le message suspect <span class="rappel">(contacts en page&nbsp;7)</span>.</div>
+
+    <h3>Focus emploi — les fausses offres</h3>
+    <p>Les signaux d'alarme en recherche d'emploi :</p>
+    <ul>
+      <li>salaire irréaliste pour le poste ;</li>
+      <li>embauche <b>sans entretien</b> ;</li>
+      <li>demande de copie de carte d'identité ou d'IBAN <b>avant tout contrat</b> ;</li>
+      <li>frais à avancer.</li>
+    </ul>
+    <div class="cle" style="margin-bottom:0"><b>Une vraie entreprise</b> ne demande jamais d'argent ni de documents d'identité avant un engagement formel.</div>
+  </section>
+
+  <!-- 5. DONNÉES -->
+  <section class="page">
+    <div class="sec-tete"><span class="sec-num">5</span><div><div class="sur">Étape 4</div><h2>Maîtriser mes données</h2></div></div>
+
+    <div class="grid2" style="margin-bottom:14px">
+      <div class="carte" style="border-left:4px solid var(--ok)"><b style="color:var(--ok)">VERT</b> — je peux partager.</div>
+      <div class="carte" style="border-left:4px solid var(--warn)"><b style="color:var(--warn)">ORANGE</b> — je vérifie qui demande et pourquoi.</div>
+    </div>
+    <div class="carte" style="border-left:4px solid var(--bad); margin-bottom:14px"><b style="color:var(--bad)">ROUGE</b> — je ne partage pas (ou jamais).</div>
+
+    <h3>Les points fermes</h3>
+    <ul>
+      <li><b>Mot de passe &amp; code SMS :</b> toujours ROUGE <span class="rappel">(voir page 3)</span>.</li>
+      <li><b>Registre national &amp; copie de carte d'identité :</b> uniquement à une administration ou un employeur formellement identifié — jamais par mail à un inconnu.</li>
+      <li><b>Localisation en temps réel &amp; photos d'enfants :</b> réflexion systématique — ce n'est pas seulement VOTRE donnée.</li>
+      <li><b>Pour tout l'orange :</b> QUI demande, POURQUOI, est-ce NÉCESSAIRE ? <span class="rappel">(le même réflexe que « avant de cliquer »)</span></li>
+    </ul>
+
+    <h3>Cas pratique — le CV en ligne</h3>
+    <div class="grid2">
+      <div class="carte"><b class="mono" style="color:var(--ok)">À garder</b><ul style="margin:6px 0 0"><li>Prénom</li><li>Parcours et compétences</li><li>Un mail de contact dédié</li></ul></div>
+      <div class="carte"><b class="mono" style="color:var(--bad)">À retirer</b><ul style="margin:6px 0 0"><li>Adresse complète (la commune suffit)</li><li>Date de naissance complète</li><li>Numéro de registre national</li><li>Photo de la carte d'identité</li></ul></div>
+    </div>
+    <p class="rappel" style="margin-top:10px">Vos droits (RGPD simplifié) : savoir ce qu'une organisation détient sur vous, le faire corriger, souvent le faire effacer.</p>
+
+    <div class="remplir">
+      <div class="lab">Ma matrice perso — 3 données par zone, celles qui me concernent</div>
+      <p class="hint" style="margin-top:6px"><span class="zdot z-ok"></span>Je peux partager</p>
+      <div class="lignes"><div class="l"></div></div>
+      <p class="hint" style="margin-top:12px"><span class="zdot z-warn"></span>Je vérifie qui demande et pourquoi</p>
+      <div class="lignes"><div class="l"></div></div>
+      <p class="hint" style="margin-top:12px"><span class="zdot z-bad"></span>Je ne partage pas</p>
+      <div class="lignes"><div class="l"></div></div>
+    </div>
+  </section>
+
+  <!-- 6. RÉAGIR -->
+  <section class="page">
+    <div class="sec-tete"><span class="sec-num">6</span><div><div class="sur">Étape 5</div><h2>Réagir en cas d'incident</h2></div></div>
+
+    <div class="cle" style="border-color:var(--bad); background:var(--bad-soft)"><b>Les 2 erreurs à ne jamais commettre :</b> ne rien dire par honte (la victime n'est jamais coupable) · payer une rançon (ça ne garantit rien et ça finance la suite).</div>
+
+    <h3>La procédure — dans l'ordre</h3>
+    <ol>
+      <li><b>STOP</b> — je coupe l'interaction (je raccroche, je ferme, je déconnecte).</li>
+      <li><b>Argent en jeu ?</b> Card Stop <span class="mono">078 170 170</span> + ma banque — on bloque l'argent d'abord.</li>
+      <li><b>Je change les mots de passe</b> depuis un appareil sûr — la <b>boîte mail d'abord</b>.</li>
+      <li><b>Je signale</b> — message suspect à <span class="mono">suspect@safeonweb.be</span> ; perte d'argent → plainte à la police.</li>
+      <li><b>Je préviens mes proches</b> et je garde les preuves (captures d'écran).</li>
+    </ol>
+
+    <h3>Mes contacts sûrs — à garder sur soi</h3>
+    <div class="grid2">
+      <div class="carte"><b>Card Stop</b><br><span class="mono" style="font-size:18px">078 170 170</span><br><small>24 h/24 — carte ou données bancaires compromises</small></div>
+      <div class="carte"><b>Message suspect</b><br><span class="mono">suspect@safeonweb.be</span><br><small>transférer, puis supprimer</small></div>
+      <div class="carte"><b>Le point de repère</b><br><span class="mono">safeonweb.be</span><br><small>arnaques en cours, tests, app d'alerte</small></div>
+      <div class="carte"><b>Argent perdu / identité volée</b><br>Ma banque + police locale<br><small>avec les preuves (captures)</small></div>
+    </div>
+  </section>
+
+  <!-- 7. ENGAGEMENT -->
+  <section class="page">
+    <div class="sec-tete"><span class="sec-num">★</span><div><div class="sur">Clôture</div><h2>Mon engagement</h2></div></div>
+    <p>Une journée entière ne change rien si rien ne change ce soir. Choisis <b>un seul</b> réflexe prioritaire — celui que tu appliques dès aujourd'hui.</p>
+
+    <div class="engage">
+      <div class="remplir" style="border:none; background:none; padding:0; margin:0">
+        <div class="lab">Mon réflexe prioritaire — celui que j'applique dès ce soir</div>
+        <div class="lignes" style="--h:34px"><div class="l"></div><div class="l"></div><div class="l"></div></div>
+      </div>
+    </div>
+
+    <div class="cle" style="margin-top:22px">Les bons réflexes se partagent : ce que tu as appris aujourd'hui, transmets-le à un proche cette semaine — un appareil protégé de plus autour de toi, c'est autant de moins pour les fraudeurs.</div>
+
+    <p style="text-align:center; color:var(--muted); margin-top:34px; font-size:13.5px">Atelier Cyber-réflexes · Le Forem — Digital Factory</p>
+  </section>
+
+</div>
+</body>
+</html>
