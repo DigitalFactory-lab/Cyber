@@ -177,17 +177,13 @@
   <section class="exo">
     <div class="exo-tete"><span class="pic"><svg class="ei" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><rect x="9" y="2.5" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg></span><b>Livrable — Checklist « Mon appareil est protégé »</b></div>
     <div class="exo-corps">
-      <p>Cochez ce qui est <b>déjà en place</b> chez vous, puis choisissez <b>UNE action à faire après l'atelier</b>.</p>
-      <ul class="check-liste" id="checklist">
-        <li><input type="checkbox" id="c1"><label for="c1" style="margin:0">Mon téléphone se verrouille tout seul (30 secondes à 1 minute).</label></li>
-        <li><input type="checkbox" id="c2"><label for="c2" style="margin:0">Mon code n'est ni 1234, ni 0000, ni ma date de naissance.</label></li>
-        <li><input type="checkbox" id="c3"><label for="c3" style="margin:0">J'utilise l'empreinte ou le visage pour déverrouiller (si mon appareil le permet).</label></li>
-        <li><input type="checkbox" id="c4"><label for="c4" style="margin:0">Mes mises à jour sont faites (ou programmées la nuit).</label></li>
-        <li><input type="checkbox" id="c5"><label for="c5" style="margin:0">Je n'installe des applications que depuis le magasin officiel (Play Store / App Store).</label></li>
-        <li><input type="checkbox" id="c6"><label for="c6" style="margin:0">Je sais qui gère mon appareil : moi — et personne d'autre n'y a accès sans mon accord.</label></li>
-      </ul>
-      <label for="actionSoir">Mon action après l'atelier</label>
-      <textarea id="actionSoir" placeholder="Ex. : passer mon code à 6 chiffres et régler le verrouillage automatique sur 30 secondes."></textarea>
+      <div class="vers-carnet">
+        <span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span>
+        <div>
+          <b>Ce livrable se remplit sur ton carnet de bord (papier).</b>
+          <p>Sur ta fiche « Mon appareil est protégé » : coche ce qui est <b>déjà en place</b>, puis note <b>une action</b> à faire après l'atelier. Au stylo, sur ton carnet — il repart avec toi.</p>
+        </div>
+      </div>
       <div class="actions">
         <button class="btn" id="finEtape">✓ J'ai terminé cette étape</button>
       </div>
@@ -355,7 +351,7 @@
     CR.marquer('etape1');
     document.getElementById('finMsg').innerHTML=
       '<div class="resultat ok" ><span class="tag ok">Étape validée</span>'+
-      '<p style="margin-bottom:0">Bien joué. Reportez votre action de ce soir sur votre checklist papier — elle part avec vous.</p></div>';
+      '<p style="margin-bottom:0">Bien joué. Reportez votre action sur votre carnet de bord — il part avec vous.</p></div>';
   });
 })();
 </script>

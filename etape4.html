@@ -132,13 +132,14 @@
   <section class="exo">
     <div class="exo-tete"><span class="pic"><svg class="ei" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><rect x="9" y="2.5" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg></span><b>Livrable — ma matrice personnelle</b></div>
     <div class="exo-corps">
-      <p>Reportez 3 données par colonne — celles qui <b>VOUS</b> concernent le plus.</p>
-      <label for="mVert" style="color:var(--ok)"><span class="zdot ok" aria-hidden="true"></span> Je peux partager</label>
-      <textarea id="mVert" placeholder="Ex. : mon prénom, mon parcours, ma photo de profil choisie…"></textarea>
-      <label for="mOrange" style="color:var(--warn)"><span class="zdot warn" aria-hidden="true"></span> Je vérifie qui demande et pourquoi</label>
-      <textarea id="mOrange" placeholder="Ex. : mon numéro de GSM, mon adresse, mon IBAN…"></textarea>
-      <label for="mRouge" style="color:var(--bad)"><span class="zdot bad" aria-hidden="true"></span> Je ne partage pas</label>
-      <textarea id="mRouge" placeholder="Ex. : mon mot de passe, un code SMS, ma carte d'identité…"></textarea>
+      <div class="vers-carnet">
+        <span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span>
+        <div>
+          <b>Ce livrable se remplit sur ton carnet de bord (papier).</b>
+          <p>Sur ta <b>matrice perso</b> : reporte 3 données qui <b>TE</b> concernent par zone —
+          <span style="color:var(--ok)">vert</span> / <span style="color:var(--warn)">orange</span> / <span style="color:var(--bad)">rouge</span>. Au stylo, sur ton carnet.</p>
+        </div>
+      </div>
       <div class="actions">
         <button class="btn" id="finEtape">✓ J'ai terminé cette étape</button>
       </div>
@@ -238,7 +239,7 @@ document.getElementById('finEtape').addEventListener('click',function(){
   CR.marquer('etape4');
   document.getElementById('finMsg').innerHTML=
     '<div class="resultat ok"><span class="tag ok">Étape validée</span>'+
-    '<p style="margin-bottom:0">Reportez votre matrice sur la feuille papier — elle part avec vous. Prochaine étape : réagir quand ça arrive quand même.</p></div>';
+    '<p style="margin-bottom:0">Reportez votre matrice sur votre carnet de bord — il part avec vous. Prochaine étape : réagir quand ça arrive quand même.</p></div>';
 });
 })();
 </script>
