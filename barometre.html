@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baromètre de confiance — Cyber-réflexes</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+:root{
+  --matin:#FFBE46; --matin-soft:#FEF2DE;
+  --aprem:#EC3E6E; --aprem-soft:#FCE7ED;
+}
+html,body{height:100%}
+body{display:flex; flex-direction:column; overflow:hidden}
+main{display:none} /* cette page ne suit pas la grille .main standard */
+
+.outil{flex:1; display:flex; flex-direction:column; min-height:0}
+
+.phase{display:flex; gap:6px; background:var(--wash); padding:5px; border-radius:12px}
+.phase button{border:none; background:transparent; color:var(--muted); font-size:14px; font-weight:700;
+  padding:8px 14px; border-radius:8px; cursor:pointer; min-height:40px; display:flex; align-items:center; gap:7px}
+.phase button .dot{width:10px; height:10px; border-radius:50%; background:currentColor; opacity:.5}
+.phase button.on{color:var(--text); background:#fff; box-shadow:0 0 0 1px var(--border)}
+.phase button.on[data-p="matin"] .dot{background:var(--matin); opacity:1}
+.phase button.on[data-p="aprem"] .dot{background:var(--aprem); opacity:1}
+
+.consigne{padding:22px 32px 6px; text-align:center}
+.consigne h2{font-size:30px; margin:0; color:var(--text); font-weight:800; line-height:1.15; letter-spacing:-.01em}
+.consigne .prompt{font-size:18px; color:var(--muted); margin-top:6px; font-style:italic}
+.consigne .prompt b{color:var(--mauve-dark); font-style:normal; font-weight:700}
+
+.barometre{flex:1; display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+  padding:10px 28px 18px; min-height:0}
+.col{background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  display:flex; flex-direction:column; overflow:hidden; position:relative}
+.col-tete{padding:14px 12px 10px; text-align:center; border-bottom:1px dashed var(--border)}
+.col-tete .n{font-family:ui-monospace,"SF Mono",Menlo,monospace; color:var(--mauve);
+  font-weight:800; font-size:13px; letter-spacing:.1em; text-transform:uppercase}
+.col-tete .lib{font-size:20px; font-weight:800; color:var(--text); margin-top:2px}
+.col-tete .sub{font-size:13px; color:var(--muted); margin-top:2px; line-height:1.25;
+  min-height:2.5em; display:flex; align-items:center; justify-content:center; padding:0 2px}
+
+.nuage{flex:1; position:relative; overflow:hidden; padding:12px; background:var(--wash)}
+.nuage .gomme{position:absolute; width:30px; height:30px; border-radius:50%;
+  box-shadow:0 1px 3px rgba(27,26,43,.18); transform-origin:center}
+.nuage .gomme.matin{background:var(--matin)}
+.nuage .gomme.aprem{background:var(--aprem)}
+@media (prefers-reduced-motion: no-preference){
+  .nuage .gomme{animation:pose .3s cubic-bezier(.2,1.7,.4,1)}
+  @keyframes pose{from{transform:scale(0); opacity:0}to{transform:scale(1); opacity:1}}
+}
+
+.compteurs{display:flex; justify-content:center; gap:8px; padding:0 8px 10px; flex-wrap:wrap}
+.cpt{display:inline-flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+  padding:4px 11px; border-radius:999px; background:var(--wash); color:var(--muted)}
+.cpt .dot{width:11px; height:11px; border-radius:50%}
+.cpt.matin .dot{background:var(--matin)}
+.cpt.aprem .dot{background:var(--aprem)}
+.cpt.actif{color:var(--text); background:var(--mauve-soft)}
+
+.voter{border:none; margin:0 12px 12px; padding:14px 10px; border-radius:var(--radius-md);
+  background:var(--mauve); color:#fff; font-size:15px; font-weight:700; cursor:pointer;
+  min-height:52px}
+.voter:hover{background:var(--mauve-dark)}
+.voter:focus-visible{outline:3px solid var(--blue); outline-offset:2px}
+.voter .signe{font-size:20px; margin-right:2px}
+
+.pied-outil{background:var(--wash); border-top:1px solid var(--border);
+  padding:12px 22px; display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+.total{font-size:14.5px; color:var(--muted); flex:1}
+.total b{color:var(--text); font-size:17px}
+.btn.danger{background:transparent; color:var(--bad); border:1.5px solid var(--bad)}
+.btn.danger:hover{background:var(--bad-soft)}
+
+.modal{position:fixed; inset:0; background:rgba(27,26,43,.55); display:none;
+  align-items:center; justify-content:center; padding:24px; z-index:10}
+.modal.actif{display:flex}
+.modal-inner{background:#fff; border-radius:var(--radius); max-width:1000px; width:100%;
+  max-height:92vh; overflow:auto; padding:28px; border:1px solid var(--border)}
+.modal h2{margin:0 0 6px; color:var(--text); font-size:26px; font-weight:800}
+.modal .sub{color:var(--muted); margin:0 0 20px}
+.compare{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:12px}
+.compare .item{background:var(--wash); border:1px solid var(--border); border-radius:var(--radius-md); padding:14px}
+.compare .item h4{margin:0 0 4px; color:var(--mauve); font-size:13px; letter-spacing:.06em; text-transform:uppercase; font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.compare .item .lib{font-size:17px; font-weight:800; margin-bottom:8px; color:var(--text)}
+.compare .bar{height:12px; border-radius:7px; background:#fff; overflow:hidden; margin:6px 0 4px; position:relative; border:1px solid var(--border)}
+.compare .bar > span{display:block; height:100%; border-radius:6px}
+.compare .bar.matin > span{background:var(--matin)}
+.compare .bar.aprem > span{background:var(--aprem)}
+.compare .lg{font-size:12px; color:var(--muted); display:flex; justify-content:space-between}
+.moyennes{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px;
+  background:var(--wash); border:1px solid var(--border); border-radius:var(--radius-md); padding:20px 24px; margin-top:22px}
+.moyennes .cote{text-align:center}
+.moyennes .cote .val{font-size:40px; font-weight:800; line-height:1}
+.moyennes .cote.matin .val{color:var(--matin)}
+.moyennes .cote.aprem .val{color:var(--aprem)}
+.moyennes .cote .lab{font-size:13px; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; margin-top:4px; font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.moyennes .fleche{font-size:34px; color:var(--muted)}
+.moyennes .ecart{text-align:center; padding:14px 18px; background:var(--ok-soft);
+  border-radius:var(--radius-md); color:var(--ok); font-weight:700; grid-column:1/-1; margin-top:8px; font-size:16px}
+.moyennes .ecart.negatif{background:var(--warn-soft); color:var(--warn)}
+.modal-actions{display:flex; gap:10px; justify-content:flex-end; margin-top:22px; flex-wrap:wrap}
+
+@media (max-width: 900px){
+  .barometre{padding:8px 14px 12px; gap:10px}
+  .consigne{padding:14px 14px 4px}
+  .consigne h2{font-size:24px}
+  .consigne .prompt{font-size:15px}
+  .col-tete .lib{font-size:17px}
+  .col-tete .sub{font-size:12px; min-height:2.4em}
+  .voter{font-size:13.5px; margin:0 8px 8px; padding:12px 6px}
+  .compare{grid-template-columns:1fr 1fr}
+}
+@media (max-width: 600px){
+  .barometre{grid-template-columns:1fr 1fr}
+  .compare{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="index.html"><svg class="logo" width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5 4.5 5.5v5.2c0 4.6 3.1 8.4 7.5 10 4.4-1.6 7.5-5.4 7.5-10V5.5L12 2.5Z" fill="#5B41B0"/><path d="m8.6 12 2.3 2.3 4.5-4.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Cyber-réflexes</a>
+  <a class="nav-link" href="index.html#programme">Programme</a>
+  <span class="etape-tag">Outil animateur · Baromètre</span>
+  <span class="spacer"></span>
+  <div class="phase" role="tablist" aria-label="Phase de la journée">
+    <button data-p="matin" class="on" aria-pressed="true"><span class="dot"></span>Matin</button>
+    <button data-p="aprem" aria-pressed="false"><span class="dot"></span>Après-midi</button>
+  </div>
+</header>
+
+<div class="outil">
+  <div class="consigne">
+    <h2 id="titreConsigne">Face aux arnaques et pièges numériques…</h2>
+    <div class="prompt" id="promptConsigne"><b>aujourd'hui</b>, je me sens…</div>
+  </div>
+
+  <div class="barometre" id="barometre"></div>
+
+  <div class="pied-outil">
+    <div class="total"><b id="totalMatin">0</b> vote(s) matin · <b id="totalAprem">0</b> vote(s) après-midi</div>
+    <button class="btn" id="btnCompare" disabled>Voir la comparaison</button>
+    <button class="btn ghost" id="btnPlein">Plein écran</button>
+    <button class="btn danger" id="btnReset">Réinitialiser</button>
+  </div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitre">
+  <div class="modal-inner">
+    <h2 id="modalTitre">Le chemin parcouru</h2>
+    <p class="sub">Comparaison entre le baromètre du matin et celui de l'après-midi.</p>
+    <div class="compare" id="compareGrid"></div>
+    <div class="moyennes" id="moyennesBloc"></div>
+    <div class="modal-actions">
+      <button class="btn ghost" id="fermerModal">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var NIVEAUX = [
+    {n:1, lib:"Démuni",   sub:"je me sens perdu face à ces sujets"},
+    {n:2, lib:"Prudent",  sub:"je fais attention, mais j'ai des doutes"},
+    {n:3, lib:"À l'aise", sub:"je pense connaître les bons réflexes"},
+    {n:4, lib:"Serein",   sub:"je m'y sens bien outillé"}
+  ];
+  var CLE = "cyberreflexes.barometre.v1";
+  var phase = "matin";
+  var votes = {matin:[0,0,0,0], aprem:[0,0,0,0]};
+  var positions = {matin:[[],[],[],[]], aprem:[[],[],[],[]]};
+
+  function charger(){
+    try{
+      var raw = localStorage.getItem(CLE);
+      if(raw){
+        var d = JSON.parse(raw);
+        if(d.votes) votes = d.votes;
+        if(d.positions) positions = d.positions;
+      }
+    }catch(e){}
+  }
+  function sauver(){
+    try{ localStorage.setItem(CLE, JSON.stringify({votes:votes, positions:positions})); }catch(e){}
+  }
+
+  var bar = document.getElementById("barometre");
+  NIVEAUX.forEach(function(N, i){
+    var col = document.createElement("section");
+    col.className = "col";
+    col.innerHTML =
+      '<div class="col-tete">'+
+        '<div class="n">Niveau '+N.n+'</div>'+
+        '<div class="lib">'+N.lib+'</div>'+
+        '<div class="sub">'+N.sub+'</div>'+
+      '</div>'+
+      '<div class="nuage" id="nuage-'+i+'" aria-live="polite"></div>'+
+      '<div class="compteurs">'+
+        '<span class="cpt matin" id="cpt-matin-'+i+'"><span class="dot"></span><span class="v">0</span></span>'+
+        '<span class="cpt aprem" id="cpt-aprem-'+i+'"><span class="dot"></span><span class="v">0</span></span>'+
+      '</div>'+
+      '<button class="voter" data-i="'+i+'"><span class="signe">+</span> Un vote</button>';
+    bar.appendChild(col);
+  });
+
+  function placerGommette(nuage, cls, x, y){
+    var g = document.createElement("span");
+    g.className = "gomme "+cls;
+    g.style.left = x+"%";
+    g.style.top  = y+"%";
+    nuage.appendChild(g);
+  }
+  function refresh(){
+    NIVEAUX.forEach(function(_, i){
+      var nuage = document.getElementById("nuage-"+i);
+      nuage.innerHTML = "";
+      ["matin","aprem"].forEach(function(ph){
+        var liste = positions[ph][i] || [];
+        liste.forEach(function(p){ placerGommette(nuage, ph, p[0], p[1]); });
+      });
+      document.querySelector("#cpt-matin-"+i+" .v").textContent = votes.matin[i];
+      document.querySelector("#cpt-aprem-"+i+" .v").textContent = votes.aprem[i];
+      document.getElementById("cpt-matin-"+i).classList.toggle("actif", phase==="matin");
+      document.getElementById("cpt-aprem-"+i).classList.toggle("actif", phase==="aprem");
+    });
+    document.getElementById("totalMatin").textContent = somme(votes.matin);
+    document.getElementById("totalAprem").textContent = somme(votes.aprem);
+    document.getElementById("btnCompare").disabled = !(somme(votes.matin)>0 && somme(votes.aprem)>0);
+    document.getElementById("promptConsigne").innerHTML =
+      phase==="matin" ? "<b>aujourd'hui</b>, je me sens…" : "<b>maintenant</b>, je me sens…";
+  }
+  function somme(t){ return t.reduce(function(a,b){return a+b;},0); }
+
+  bar.addEventListener("click", function(e){
+    var b = e.target.closest(".voter");
+    if(!b) return;
+    var i = parseInt(b.dataset.i, 10);
+    votes[phase][i]++;
+    var x = 8 + Math.random()*84;
+    var y = 8 + Math.random()*84;
+    positions[phase][i].push([Math.round(x*10)/10, Math.round(y*10)/10]);
+    sauver();
+    refresh();
+  });
+
+  document.querySelectorAll(".phase button").forEach(function(b){
+    b.addEventListener("click", function(){
+      phase = b.dataset.p;
+      document.querySelectorAll(".phase button").forEach(function(x){
+        x.classList.toggle("on", x===b);
+        x.setAttribute("aria-pressed", x===b ? "true":"false");
+      });
+      refresh();
+    });
+  });
+
+  document.getElementById("btnReset").addEventListener("click", function(){
+    var t = somme(votes.matin)+somme(votes.aprem);
+    if(t===0){ return; }
+    if(confirm("Effacer tous les votes ("+t+") du baromètre ? Cette action est irréversible.")){
+      votes = {matin:[0,0,0,0], aprem:[0,0,0,0]};
+      positions = {matin:[[],[],[],[]], aprem:[[],[],[],[]]};
+      sauver();
+      refresh();
+    }
+  });
+
+  document.getElementById("btnPlein").addEventListener("click", function(){
+    var el = document.documentElement;
+    if(!document.fullscreenElement){
+      (el.requestFullscreen||el.webkitRequestFullscreen||function(){}).call(el);
+    } else {
+      (document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document);
+    }
+  });
+
+  var modal = document.getElementById("modal");
+  document.getElementById("btnCompare").addEventListener("click", function(){
+    remplirComparaison();
+    modal.classList.add("actif");
+  });
+  document.getElementById("fermerModal").addEventListener("click", function(){
+    modal.classList.remove("actif");
+  });
+  modal.addEventListener("click", function(e){ if(e.target===modal) modal.classList.remove("actif"); });
+
+  function moyenne(t){
+    var s = 0, n = 0;
+    t.forEach(function(v, i){ s += v*(i+1); n += v; });
+    return n>0 ? s/n : 0;
+  }
+  function remplirComparaison(){
+    var grid = document.getElementById("compareGrid");
+    var totM = somme(votes.matin), totA = somme(votes.aprem);
+    var maxAll = Math.max.apply(null, votes.matin.concat(votes.aprem).concat([1]));
+    grid.innerHTML = "";
+    NIVEAUX.forEach(function(N, i){
+      var pm = totM ? Math.round(votes.matin[i]/totM*100) : 0;
+      var pa = totA ? Math.round(votes.aprem[i]/totA*100) : 0;
+      var wm = Math.round(votes.matin[i]/maxAll*100);
+      var wa = Math.round(votes.aprem[i]/maxAll*100);
+      var el = document.createElement("div");
+      el.className = "item";
+      el.innerHTML =
+        '<h4>Niveau '+N.n+'</h4><div class="lib">'+N.lib+'</div>'+
+        '<div class="bar matin"><span style="width:'+wm+'%"></span></div>'+
+        '<div class="lg"><span>Matin</span><span>'+votes.matin[i]+' · '+pm+'%</span></div>'+
+        '<div class="bar aprem"><span style="width:'+wa+'%"></span></div>'+
+        '<div class="lg"><span>Après-midi</span><span>'+votes.aprem[i]+' · '+pa+'%</span></div>';
+      grid.appendChild(el);
+    });
+
+    var mm = moyenne(votes.matin), ma = moyenne(votes.aprem);
+    var delta = ma - mm;
+    var bloc = document.getElementById("moyennesBloc");
+    var deltaTxt, deltaCls = "";
+    if(Math.abs(delta) < 0.05){ deltaTxt = "Stabilité entre le matin et l'après-midi."; }
+    else if(delta > 0){ deltaTxt = "Le groupe se sent en moyenne +"+delta.toFixed(2)+" niveau plus armé qu'au matin."; }
+    else { deltaTxt = "Le groupe se sent en moyenne "+delta.toFixed(2)+" niveau plus fragile qu'au matin."; deltaCls = "negatif"; }
+
+    bloc.innerHTML =
+      '<div class="cote matin"><div class="val">'+mm.toFixed(2)+'</div><div class="lab">Moyenne matin</div></div>'+
+      '<div class="fleche">→</div>'+
+      '<div class="cote aprem"><div class="val">'+ma.toFixed(2)+'</div><div class="lab">Moyenne après-midi</div></div>'+
+      '<div class="ecart '+deltaCls+'">'+deltaTxt+'</div>';
+  }
+
+  charger();
+  refresh();
+})();
+</script>
+</body>
+</html>

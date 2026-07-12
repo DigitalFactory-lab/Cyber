@@ -140,9 +140,9 @@ section.bloc{padding:var(--space-section) 0}
   padding:11px 18px; border-radius:var(--r-md); cursor:pointer}
 .prog-reset button:hover{opacity:.9}
 @media (max-width:680px){ .prog-reset{flex-direction:column; align-items:flex-start; gap:12px} }
-.prog .row{color:var(--muted)}
+.prog .row.pause{color:var(--muted)}
 .prog .row.pause .t{font-weight:500; font-size:15px; color:var(--muted)}
-.prog .row .go{display:none}
+.prog .row.pause .go{display:none}
 @media (max-width:680px){
   .prog a, .prog .row{grid-template-columns:92px 1fr; gap:14px}
   .prog .h{font-size:13px}
@@ -304,7 +304,7 @@ footer.site .wrap{display:flex; justify-content:space-between; gap:16px; flex-wr
       Chaque activité affiche sa plage horaire ; les séquences interactives s'ouvrent d'un clic.</p>
 
     <div class="prog">
-      <div class="row"><span class="h">08:30–09:00</span><span class="t">Étape 0 — Prendre ses marques<small>Accueil · équipes · baromètre de confiance</small></span><span class="go"></span></div>
+      <a href="barometre.html" class="row"><span class="h">08:30–09:00</span><span class="t">Étape 0 — Prendre ses marques<small>Accueil · équipes · baromètre de confiance</small></span><span class="go">Ouvrir →</span></a>
       <a href="etape1.html" data-cle="etape1"><span class="h">09:00–09:40</span><span class="t">Étape 1 — Verrouiller son appareil<small>Code, biométrie, mises à jour · simulateur de verrou</small></span><span class="go">Ouvrir →</span></a>
       <a href="bestiaire.html" data-cle="bestiaire"><span class="h">09:40–10:20</span><span class="t">Étape 2 — Bestiaire des menaces<small>Virus, ransomware, phishing… reconnaître les familles</small></span><span class="go">Ouvrir →</span></a>
       <div class="row pause"><span class="h">10:20–10:35</span><span class="t">Pause</span><span class="go"></span></div>
