@@ -140,9 +140,14 @@ section.bloc{padding:var(--space-section) 0}
   padding:11px 18px; border-radius:var(--r-md); cursor:pointer}
 .prog-reset button:hover{opacity:.9}
 @media (max-width:680px){ .prog-reset{flex-direction:column; align-items:flex-start; gap:12px} }
-.prog .row.pause{color:var(--muted)}
+.outils-anim{margin-top:26px; padding-top:20px; border-top:1px solid var(--line)}
+.outils-anim p{margin:0 0 8px; font-size:14.5px; color:var(--muted); display:flex; align-items:flex-start; gap:8px}
+.outils-anim p svg{flex:none; margin-top:1px; color:var(--mauve)}
+.outils-anim a{color:var(--ink); font-weight:700; text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:2px}
+.outils-anim a:hover{text-decoration-color:var(--mauve)}
+.prog .row{color:var(--muted)}
 .prog .row.pause .t{font-weight:500; font-size:15px; color:var(--muted)}
-.prog .row.pause .go{display:none}
+.prog .row .go{display:none}
 @media (max-width:680px){
   .prog a, .prog .row{grid-template-columns:92px 1fr; gap:14px}
   .prog .h{font-size:13px}
@@ -304,7 +309,7 @@ footer.site .wrap{display:flex; justify-content:space-between; gap:16px; flex-wr
       Chaque activité affiche sa plage horaire ; les séquences interactives s'ouvrent d'un clic.</p>
 
     <div class="prog">
-      <a href="barometre.html" class="row"><span class="h">08:30–09:00</span><span class="t">Étape 0 — Prendre ses marques<small>Accueil · équipes · baromètre de confiance</small></span><span class="go">Ouvrir →</span></a>
+      <div class="row"><span class="h">08:30–09:00</span><span class="t">Étape 0 — Prendre ses marques<small>Accueil · équipes · baromètre de confiance</small></span><span class="go"></span></div>
       <a href="etape1.html" data-cle="etape1"><span class="h">09:00–09:40</span><span class="t">Étape 1 — Verrouiller son appareil<small>Code, biométrie, mises à jour · simulateur de verrou</small></span><span class="go">Ouvrir →</span></a>
       <a href="bestiaire.html" data-cle="bestiaire"><span class="h">09:40–10:20</span><span class="t">Étape 2 — Bestiaire des menaces<small>Virus, ransomware, phishing… reconnaître les familles</small></span><span class="go">Ouvrir →</span></a>
       <div class="row pause"><span class="h">10:20–10:35</span><span class="t">Pause</span><span class="go"></span></div>
@@ -324,7 +329,11 @@ footer.site .wrap{display:flex; justify-content:space-between; gap:16px; flex-wr
       </div>
       <button type="button" id="resetProg">Réinitialiser cette tablette</button>
     </div>
-    <p class="carnet-lien" style="margin-top:16px;font-size:14.5px;color:var(--muted);display:flex;align-items:center;gap:2px;flex-wrap:wrap"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-3px;margin-right:6px"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg><b>Animateur —</b> <a href="carnet.html">le carnet de bord à imprimer</a> : à tirer en série et à distribuer avant l'atelier.</p>
+    <div class="outils-anim">
+      <p class="kicker" style="margin:0 0 8px">Outils formateur</p>
+      <p><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 14V5a2 2 0 0 0-4 0v9a4 4 0 1 0 4 0Z"/></svg><a href="barometre.html">Le baromètre de confiance</a> — à ouvrir sur UNE seule tablette (la vôtre, projetée ou posée dans la salle) : chaque participant y dépose son vote. À ne pas ouvrir sur les tablettes des équipes.</p>
+      <p><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg><a href="carnet.html">Le carnet de bord à imprimer</a> — à tirer en série et à distribuer avant l'atelier.</p>
+    </div>
   </div>
 </section>
 

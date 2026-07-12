@@ -24,6 +24,9 @@ main{display:none} /* cette page ne suit pas la grille .main standard */
 .phase button.on[data-p="matin"] .dot{background:var(--matin); opacity:1}
 .phase button.on[data-p="aprem"] .dot{background:var(--aprem); opacity:1}
 
+.avis-unique{background:var(--mauve-soft); color:var(--mauve-dark); font-size:13.5px; font-weight:600;
+  text-align:center; padding:9px 16px}
+
 .consigne{padding:22px 32px 6px; text-align:center}
 .consigne h2{font-size:30px; margin:0; color:var(--text); font-weight:800; line-height:1.15; letter-spacing:-.01em}
 .consigne .prompt{font-size:18px; color:var(--muted); margin-top:6px; font-style:italic}
@@ -129,6 +132,8 @@ main{display:none} /* cette page ne suit pas la grille .main standard */
     <button data-p="aprem" aria-pressed="false"><span class="dot"></span>Après-midi</button>
   </div>
 </header>
+
+<div class="avis-unique">Un seul appareil pour toute la salle — ne l'ouvrez pas sur les tablettes des équipes. Posez celui-ci au centre, ou projetez-le : chaque participant vient y déposer son vote.</div>
 
 <div class="outil">
   <div class="consigne">
