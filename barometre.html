@@ -98,6 +98,7 @@ main{display:none} /* cette page ne suit pas la grille .main standard */
 .moyennes .cote.matin .val{color:var(--matin)}
 .moyennes .cote.aprem .val{color:var(--aprem)}
 .moyennes .cote .lab{font-size:13px; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; margin-top:4px; font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.moyennes .cote .brut{font-size:12px; color:var(--muted); margin-top:2px}
 .moyennes .fleche{font-size:34px; color:var(--muted)}
 .moyennes .ecart{text-align:center; padding:14px 18px; background:var(--ok-soft);
   border-radius:var(--radius-md); color:var(--ok); font-weight:700; grid-column:1/-1; margin-top:8px; font-size:16px}
@@ -317,17 +318,18 @@ main{display:none} /* cette page ne suit pas la grille .main standard */
     });
 
     var mm = moyenne(votes.matin), ma = moyenne(votes.aprem);
-    var delta = ma - mm;
+    var pctM = Math.round(mm/NIVEAUX.length*100), pctA = Math.round(ma/NIVEAUX.length*100);
+    var deltaPct = pctA - pctM;
     var bloc = document.getElementById("moyennesBloc");
     var deltaTxt, deltaCls = "";
-    if(Math.abs(delta) < 0.05){ deltaTxt = "Stabilité entre le matin et l'après-midi."; }
-    else if(delta > 0){ deltaTxt = "Le groupe se sent en moyenne +"+delta.toFixed(2)+" niveau plus armé qu'au matin."; }
-    else { deltaTxt = "Le groupe se sent en moyenne "+delta.toFixed(2)+" niveau plus fragile qu'au matin."; deltaCls = "negatif"; }
+    if(Math.abs(deltaPct) < 2){ deltaTxt = "Stabilité entre le matin et l'après-midi."; }
+    else if(deltaPct > 0){ deltaTxt = "Le groupe se sent en moyenne +"+deltaPct+" points plus confiant qu'au matin."; }
+    else { deltaTxt = "Le groupe se sent en moyenne "+deltaPct+" points moins confiant qu'au matin."; deltaCls = "negatif"; }
 
     bloc.innerHTML =
-      '<div class="cote matin"><div class="val">'+mm.toFixed(2)+'</div><div class="lab">Moyenne matin</div></div>'+
+      '<div class="cote matin"><div class="val">'+pctM+'%</div><div class="lab">Confiance — matin</div><div class="brut">'+mm.toFixed(2)+' / '+NIVEAUX.length+'</div></div>'+
       '<div class="fleche">→</div>'+
-      '<div class="cote aprem"><div class="val">'+ma.toFixed(2)+'</div><div class="lab">Moyenne après-midi</div></div>'+
+      '<div class="cote aprem"><div class="val">'+pctA+'%</div><div class="lab">Confiance — après-midi</div><div class="brut">'+ma.toFixed(2)+' / '+NIVEAUX.length+'</div></div>'+
       '<div class="ecart '+deltaCls+'">'+deltaTxt+'</div>';
   }
 
