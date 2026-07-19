@@ -60,7 +60,7 @@ body{
 .topbar .progres{font-size:14px; color:var(--muted); font-weight:600}
 
 /* ---------- Structure ---------- */
-main{max-width:880px; margin:0 auto; padding:32px 20px 80px}
+main{max-width:1000px; margin:0 auto; padding:32px 20px 80px}
 section{margin-top:48px}
 h1{font-size:32px; line-height:1.12; letter-spacing:-.02em; font-weight:800; margin:0 0 10px}
 h2{
@@ -206,7 +206,7 @@ textarea:focus,input[type=text]:focus{border-color:var(--mauve); outline:3px sol
 
 /* ---------- Pied de page / navigation ---------- */
 .pager{
-  max-width:880px; margin:0 auto; padding:0 20px 48px;
+  max-width:1000px; margin:0 auto; padding:0 20px 48px;
   display:flex; gap:14px; justify-content:space-between; flex-wrap:wrap;
 }
 .pager a{
@@ -220,7 +220,7 @@ textarea:focus,input[type=text]:focus{border-color:var(--mauve); outline:3px sol
 .pager a.suivant{text-align:right}
 footer.colophon{
   text-align:center; color:var(--muted); font-size:13.5px; padding:16px 20px 40px;
-  border-top:1px solid var(--border); max-width:880px; margin:0 auto;
+  border-top:1px solid var(--border); max-width:1000px; margin:0 auto;
 }
 
 /* ---------- Accueil / tableau de bord ---------- */
